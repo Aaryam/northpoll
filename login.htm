@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <title>NorthPoll | Login</title>
+</head>
+<ul>
+    <li><a class="active" href="#home">Home</a></li>
+    <li><a href="#news">News</a></li>
+    <li><a href="#contact">Contact</a></li>
+</ul>
+
+<body>
+    <div class="spacer-title">
+    </div>
+    <div class="spacer-main">
+        <center>
+            <div class="black-box">
+                <h1 style="color: white;">
+                    Login
+                </h1>
+                <input id="txtEmail" type="email" placeholder="Email" class="inputbox">
+                <br>
+                <br>
+                <input id="txtPassword" type="password" placeholder="Password" class="inputbox">
+                <br>
+                <br>
+                <button id="buttonLogin" class="register-button">
+                    Login
+                </button>
+
+                <button id="buttonSignUp" class="register-button">
+                    Sign Up
+                </button>
+
+                <button id="buttonLogout" class="register-button">
+                    Log out
+                </button>
+            </div>
+        </center>
+    </div>
+
+    <!--Javascript reference-->
+    
+    <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-database.js"></script>
+    <script src="auth.js"></script>
+</body>
+
+</html>

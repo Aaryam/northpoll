@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <title>NorthPoll | Post</title>
+</head>
+<ul>
+    <li><a href="index.htm">Home</a></li>
+    <li><a href="post.htm">Post</a></li>
+    <li><a href="contact.htm">Contact</a></li>
+    <li style="float:right;" id="buttonLogout"><a href="#logging-out">Log Out</a></li>
+</ul>
+
+<body>
+    <div class="spacer-title">
+    </div>
+    <div class="spacer-main">
+        <center>
+            <div class="black-box largeh">
+                <h1 style="color: white;" id="tester">
+                    Post Poll
+                </h1>
+                <textarea id="txtEmail" type="text" placeholder="Question" class="contentbox"></textarea>
+                <br>
+                <input id="op1" type="text" placeholder="Option 1" class="inputbox">
+                <input id="op2" type="text" placeholder="Option 2" class="inputbox">
+                <input id="op3" type="text" placeholder="Option 3" class="inputbox hide">
+                <input id="op4" type="text" placeholder="Option 4" class="inputbox hide">
+                <br>
+                <br>
+                <button id="buttonLogin" class="register-button hide">
+                    Login
+                </button>
+
+                <button id="buttonSignUp" class="register-button hide">
+                    Sign Up
+                </button>
+                <button id="buttonPost" class="register-button">
+                    Post
+                </button>
+                <button id="buttonAdd" class="register-button" onclick="AddMoreOps()">
+                    +
+                </button>
+                <button id="buttonAdd" class="register-button" onclick="RemoveMoreOps()">
+                    -
+                </button>
+            </div>
+            <div class="spacer-main">
+
+            </div>
+        </center>
+    </div>
+
+    <!--Javascript reference-->
+
+    <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-database.js"></script>
+    <script src="auth.js"></script>
+    <script>
+        let postVal;
+        function AddMoreOps() {
+            buttonName = 'op3'
+            add = document.getElementById(buttonName);
+            if (add.classList.contains('hide')) {
+                add.classList.remove('hide');
+            }
+            else if (!add.classList.contains('hide')) {
+                buttonName = 'op4';
+                add = document.getElementById(buttonName);
+                add.classList.remove('hide');
+            }
+        }
+
+        function RemoveMoreOps() {
+            buttonName = 'op4'
+            add = document.getElementById(buttonName);
+            if (!add.classList.contains('hide')) {
+                add.classList.add('hide');
+            }
+            else if (add.classList.contains('hide')) {
+                buttonName = 'op3';
+                add = document.getElementById(buttonName);
+                add.classList.add('hide');
+            }
+        }
+
+        firebase.database().ref('users/' + 'totalCount/').on('value', function (snapshot) {
+            postVal = snapshot.val();
+        });
+
+        postVal = JSON.stringify(postVal);
+        postVal = parseInt(postVal);
+        console.log(postVal);
+
+        function enterPosts() {
+            if (postVal != NaN) {
+                for (let index = 0; index <= postVal; index++) {
+                    createCard(index);
+                    console.log(postVal)
+                }
+                console.log('now');
+            }
+        }
+
+        console.log("Start Count");
+        setTimeout(() => { enterPosts() }, 10000);
+
+        function returnQ(id, element) {
+            var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'content');
+            testRef.on('value', function (snapshot) {
+                element.innerText = JSON.stringify(snapshot.val());
+                console.log(element);
+                console.log(element.innerText)
+            });
+        }
+
+        function returnOp1(id, element) {
+            var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op1');
+            testRef.on('value', function (snapshot) {
+                element.innerText = JSON.stringify(snapshot.val());
+                console.log(element);
+                console.log(element.innerText)
+            });
+        }
+
+        function returnOp2(id, element) {
+            var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op2');
+            testRef.on('value', function (snapshot) {
+                element.innerText = JSON.stringify(snapshot.val());
+                console.log(element);
+                console.log(element.innerText)
+            });
+        }
+
+        function returnOp3(id, element) {
+            var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op3');
+            testRef.on('value', function (snapshot) {
+                element.innerText = JSON.stringify(snapshot.val());
+                console.log(element);
+                console.log(element.innerText)
+            });
+        }
+
+        function returnOp4(id, element) {
+            var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op4');
+            testRef.on('value', function (snapshot) {
+                element.innerText = JSON.stringify(snapshot.val());
+                console.log(element);
+                console.log(element.innerText)
+            });
+        }
+
+        function createCard(cardId) {
+            var spacer = document.createElement('div');
+            spacer.setAttribute('class', 'spacer-main');
+            var center = document.createElement("center");
+            spacer.appendChild(center);
+            var black_box = document.createElement('div');
+            center.appendChild(black_box);
+            black_box.setAttribute('class', 'black-card');
+            black_box.setAttribute('style', 'color: white;');
+            var header = document.createElement('h3');
+            returnQ(cardId, header)
+            header.setAttribute('style', 'color: white;')
+            black_box.appendChild(header);
+            var br1 = document.createElement('br');
+            black_box.appendChild(br1);
+            var br2 = document.createElement('br');
+            black_box.appendChild(br2);
+            var option1 = document.createElement('button');
+            returnOp1(cardId, option1)
+            black_box.appendChild(option1);
+            option1.setAttribute('class', 'register-button')
+            var option2 = document.createElement('button');
+            returnOp2(cardId, option2)
+            black_box.appendChild(option2);
+            option2.setAttribute('class', 'register-button')
+            var option3 = document.createElement('button');
+            returnOp3(cardId, option3)
+            black_box.appendChild(option3);
+            option3.setAttribute('class', 'register-button')
+            var option4 = document.createElement('button');
+            returnOp4(cardId, option4)
+            black_box.appendChild(option4);
+            option4.setAttribute('class', 'register-button');
+            var byText = document.createElement('p');
+            byText.textContent = "By: user@user.com";
+            black_box.appendChild(byText);
+            byText.setAttribute('style', 'text-align: center;');
+            document.body.appendChild(spacer);
+        }
+
+    </script>
+</body>
+
+</html>

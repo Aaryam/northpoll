@@ -1,0 +1,136 @@
+html {font-family: 'Roboto', sans-serif;}
+
+body {
+    margin: 0;
+    overflow: hidden;
+}
+
+p {
+    margin-right: 100px;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: rgb(39, 39, 39);
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+button:focus {outline:0;}
+input:focus {outline:0;}
+textarea:focus {outline:0;}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: rgb(59, 59, 59);
+}
+
+.active {
+  background-color: rgb(27, 27, 27);
+}
+
+.spacer-title {
+  margin-top: 100px;
+}
+
+.spacer-main {
+  margin-left: 25px;
+  margin-top: 100px;
+}
+
+.inputbox {
+  border-radius: 10px;
+  background: white;
+  padding: 20px; 
+  width: 400px;
+  height: 1px;  
+  font-size: 12px;
+  border-color: rgb(0, 0, 0);
+}
+
+.register-button {
+  border-radius: 10px;
+  background-color: rgb(39, 39, 39); /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+}
+
+.contentbox {
+  border-radius: 10px;
+  background: white;
+  padding: 40px; 
+  width: 370px;
+  height: 65px;  
+  font-size: 12px;
+  border-color: rgb(0, 0, 0);
+  resize: none;
+}
+
+.optionbox {
+  border-radius: 10px;
+  background: white;
+  padding: 40px; 
+  width: 125px;
+  height: 20px;  
+  font-size: 12px;
+  border-color: rgb(0, 0, 0);
+  resize: none;
+}
+
+.register-button:hover {
+  background-color: rgb(44, 44, 44);
+}
+
+.black-box {
+  border-radius: 25px;
+  background: rgb(26, 26, 26);
+  padding: 10px; 
+  width: 500px;
+  height: 300px;  
+}
+
+.largeh {
+  height: 500px;
+}
+
+.largew {
+  widows: 600px;
+}
+
+.black-card {
+  border-radius: 25px;
+  background: rgb(26, 26, 26);
+  padding: 20px; 
+  width: 500px;
+  height: 300px;
+}
+
+.hide {
+  visibility: hidden;
+}
+
+pre {
+  font-family: 'Roboto';
+}
