@@ -191,7 +191,7 @@
             black_box.appendChild(option4);
             option4.setAttribute('class', 'register-button');
             var byText = document.createElement('p');
-            byText.textContent = "By: user@user.com";
+            byText.textContent = "By: " + localStorage.getItem("emailCurrent");
             black_box.appendChild(byText);
             byText.setAttribute('style', 'text-align: center;');
             document.body.appendChild(spacer);
