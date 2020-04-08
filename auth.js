@@ -85,7 +85,8 @@ Basic Configuration for Firebase
     firebase.auth().onAuthStateChanged(firebaseUser => {
         if (firebaseUser) {
             console.log(firebaseUser);
-            if (window.location.pathname + window.location.search != "/index.htm") {
+            let windowVar = window.location.pathname + window.location.search;
+            if (!windowVar.contains("/index.htm")) {
                 window.location.href = "index.htm";
 
                 localStorage.setItem("emailCurrent", firebaseUser.email);
@@ -94,7 +95,8 @@ Basic Configuration for Firebase
         }
         else {
             console.log("User not signed in");
-            if (window.location.pathname + window.location.search != "/login.htm") {
+            let windowVar = window.location.pathname + window.location.search;
+            if (!windowVar.contains("/login.htm")) {
                 window.location.reload();
                 window.location.href = "login.htm";
                 localStorage.setItem("emailCurrent", null);
