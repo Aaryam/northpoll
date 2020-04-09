@@ -117,13 +117,18 @@ Basic Configuration for Firebase
     // are one minute
 
     let postVal;
+    let userCount;
+
     function addPost(content) {
+
+        // total post counting
 
         var counterRef = firebase.database().ref('users/');
         
         firebase.database().ref('users/' + 'totalCount/').on('value', function (snapshot) {
             postVal = snapshot.val();
          });
+
          if (postVal != null)
          {
              postVal = JSON.stringify(postVal);
@@ -136,9 +141,31 @@ Basic Configuration for Firebase
                 totalCount: 0,
             });
         }
+
+        // user post counting
+        
+        var userCountRef = firebase.database().ref('users/' + (localStorage.getItem("idCurrent") + '/'));
+
+        firebase.database().ref('users/' + (localStorage.getItem("idCurrent") + '/') + 'userCount').on('value', function (snapshot) {
+            userCount = snapshot.val();
+         });
+
+        if (userCount != null)
+        {
+            userCount = JSON.stringify(userCount);
+            userCount = parseInt(userCount);
+            userCountRef.update({'userCount': userCount + 1})
+        }
+        else {
+            userCountRef.set({
+                userCount: 0,
+            });
+            console.log("You have no posts :(");
+        }
+        
         let date = new Date();
         let finalTime = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate() + '-' + date.getHours() + ':' + date.getMinutes();
-        firebase.database().ref('users/' + (localStorage.getItem("idCurrent") + '/') + 'posts/' + finalTime + '/' + postVal).set({
+        firebase.database().ref('users/' + (localStorage.getItem("idCurrent") + '/') + 'posts/' + 'userPosts/' +  finalTime + '/' + postVal).set({
             email: localStorage.getItem("emailCurrent"),
             content: content,
             date: date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear(),
