@@ -7,27 +7,28 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" type="text/css" href="style.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
-    <title>NorthPoll | Login</title>
+    <title>NorthPoll | Profile</title>
 </head>
 <ul>
-        <li><a href="index.htm">Home</a></li>
-        <li><a href="post.htm">Post</a></li>
-        <li><a href="contact.htm">Contact</a></li>
-        <li style="float:right;" id="buttonLogout"><a href="#logging-out">Log Out</a></li>
-        <li style="float:right;" id="myProfile"><a href="profile.htm">My Profile</a></li>
+    <li><a href="index.htm">Home</a></li>
+    <li><a href="post.htm">Post</a></li>
+    <li><a href="contact.htm">Contact</a></li>
+    <li style="float:right;" id="buttonLogout"><a href="#logging-out">Log Out</a></li>
+    <li style="float:right;" id="myProfile"><a href="profile.htm">My Profile</a></li>
 </ul>
 
 <body>
     <div class="spacer-title">
     </div>
-    <div class="spacer-main">
+    <div class="">
         <center>
-
+            <div class="black-box smallh smallw">
+                <h3 style="color: white;" id="emailName"></h3>
         </center>
     </div>
 
     <!--Javascript reference-->
-    
+
     <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-analytics.js"></script>
@@ -35,10 +36,13 @@
     <script src="auth.js"></script>
     <script>
         let postVal;
-
+        let isSameEmail;
+        let x2;
         firebase.database().ref('users/' + 'totalCount/').on('value', function (snapshot) {
             postVal = snapshot.val();
         });
+
+        document.getElementById("emailName").innerHTML = localStorage.getItem('emailCurrent');
 
         postVal = JSON.stringify(postVal);
         postVal = parseInt(postVal);
@@ -47,10 +51,14 @@
         function enterPosts() {
             if (postVal != NaN) {
                 for (let index = 0; index <= postVal; index++) {
-                    createCard(index);
-                    console.log(postVal)
+                    var testRef = firebase.database().ref('userIDs/' + localStorage.getItem('idCurrent') + "/");
+                    testRef.on('value', function (snapshot) {
+                        if (snapshot.hasChild(index + '/')) {
+                        createCard(index, localStorage.getItem("emailCurrent"));
+                    }
+                    });
                 }
-                console.log('now');
+                console.log('10 seconds ended');
             }
         }
 
@@ -58,60 +66,50 @@
         setTimeout(() => { enterPosts() }, 10000);
 
         function returnQ(id, element) {
-            var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'content');
+            var testRef = firebase.database().ref('userIDs/' + localStorage.getItem('idCurrent') + '/' + id + '/' + 'content');
             testRef.on('value', function (snapshot) {
-                element.innerText = JSON.stringify(snapshot.val());
-                console.log(element);
-                console.log(element.innerText)
+                element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
+                console.log(element.innerText);
             });
         }
 
         function returnOp1(id, element) {
-            var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op1');
+            var testRef = firebase.database().ref('userIDs/' + localStorage.getItem('idCurrent') + '/' + id + '/' + 'op1');
             testRef.on('value', function (snapshot) {
-                element.innerText = JSON.stringify(snapshot.val());
-                console.log(element);
-                console.log(element.innerText)
+                element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
             });
         }
 
         function returnOp2(id, element) {
-            var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op2');
+            var testRef = firebase.database().ref('userIDs/' + localStorage.getItem('idCurrent') + '/' + id + '/' + 'op2');
             testRef.on('value', function (snapshot) {
-                element.innerText = JSON.stringify(snapshot.val());
-                console.log(element);
-                console.log(element.innerText)
+                element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
             });
         }
 
         function returnOp3(id, element) {
-            var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op3');
+            var testRef = firebase.database().ref('userIDs/' + localStorage.getItem('idCurrent') + '/' + id + '/' + 'op3');
             testRef.on('value', function (snapshot) {
-                element.innerText = JSON.stringify(snapshot.val());
-                console.log(element);
-                console.log(element.innerText)
+                element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
             });
         }
 
         function returnOp4(id, element) {
-            var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op4');
+            var testRef = firebase.database().ref('userIDs/' + localStorage.getItem('idCurrent') + '/' + id + '/' + 'op4');
             testRef.on('value', function (snapshot) {
-                element.innerText = JSON.stringify(snapshot.val());
-                console.log(element);
-                console.log(element.innerText)
+                element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
             });
         }
 
         function returnBy(id, element) {
-            var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'email');
+            var testRef = firebase.database().ref('userIDs/' + localStorage.getItem('idCurrent') + '/' + id + '/' + 'email');
             testRef.on('value', function (snapshot) {
-                element.innerText = 'By: ' + JSON.stringify(snapshot.val());
-                console.log(element);
-                console.log(element.innerText)
+                element.innerText = 'By: ' + JSON.stringify(snapshot.val()).slice(1, -1);
+                console.log(element.innerHTML)
             });
         }
 
-        function createCard(cardId) {
+        function createCard(cardId, mana) {
             var spacer = document.createElement('div');
             spacer.setAttribute('class', 'spacer-main');
             var center = document.createElement("center");
@@ -150,7 +148,6 @@
             byText.setAttribute('style', 'text-align: center;');
             document.body.appendChild(spacer);
         }
-
     </script>
 </body>
 

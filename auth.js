@@ -43,9 +43,9 @@ Basic Configuration for Firebase
 
     const testCard = document.getElementById('testCard');
     var postage = {
-        totalPostCount : 0,
+        totalPostCount: 0,
     };
-    
+
 
     // login event
 
@@ -60,19 +60,20 @@ Basic Configuration for Firebase
         });
     }
     // sign up event
+    if (buttonSignUp) {
+        buttonSignUp.addEventListener('click', e => {
 
-    buttonSignUp.addEventListener('click', e => {
+            // TODO: Check if email is legit :D
+            // do so by doing some email authentication code & logic
 
-        // TODO: Check if email is legit :D
-        // do so by doing some email authentication code & logic
-
-        const email = txtEmail.value;
-        const pass = txtPassword.value;
-        const auth = firebase.auth();
-        // Sign In
-        const promise = auth.createUserWithEmailAndPassword(email, pass);
-        promise.catch(e => console.log(e.message))
-    });
+            const email = txtEmail.value;
+            const pass = txtPassword.value;
+            const auth = firebase.auth();
+            // Sign In
+            const promise = auth.createUserWithEmailAndPassword(email, pass);
+            promise.catch(e => console.log(e.message))
+        });
+    }
 
     buttonLogout.addEventListener('click', e => {
         firebase.auth().signOut();
@@ -86,11 +87,15 @@ Basic Configuration for Firebase
         if (firebaseUser) {
             console.log(firebaseUser);
             let windowVar = window.location.pathname + window.location.search;
-            if (!windowVar.includes("index.htm")) {
+            if (windowVar.includes("login.htm")) {
                 window.location.href = "index.htm";
 
                 localStorage.setItem("emailCurrent", firebaseUser.email);
                 localStorage.setItem("idCurrent", firebaseUser.uid);
+            }
+            else if (windowVar.includes("profile.htm"))
+            {
+                console.log("Profile Page");
             }
         }
         else {
@@ -124,37 +129,35 @@ Basic Configuration for Firebase
         // total post counting
 
         var counterRef = firebase.database().ref('users/');
-        
+
         firebase.database().ref('users/' + 'totalCount/').on('value', function (snapshot) {
             postVal = snapshot.val();
-         });
+        });
 
-         if (postVal != null)
-         {
-             postVal = JSON.stringify(postVal);
-             postVal = parseInt(postVal);
-             counterRef.update({'totalCount': postVal + 1})
-             totalPostCount = postVal + 1;
-         }
-         else {
+        if (postVal != null) {
+            postVal = JSON.stringify(postVal);
+            postVal = parseInt(postVal);
+            counterRef.update({ 'totalCount': postVal + 1 })
+            totalPostCount = postVal + 1;
+        }
+        else {
             counterRef.set({
                 totalCount: 0,
             });
         }
 
         // user post counting
-        
+
         var userCountRef = firebase.database().ref('users/' + (localStorage.getItem("idCurrent") + '/'));
 
         firebase.database().ref('users/' + (localStorage.getItem("idCurrent") + '/') + 'userCount').on('value', function (snapshot) {
             userCount = snapshot.val();
-         });
+        });
 
-        if (userCount != null)
-        {
+        if (userCount != null) {
             userCount = JSON.stringify(userCount);
             userCount = parseInt(userCount);
-            userCountRef.update({'userCount': userCount + 1})
+            userCountRef.update({ 'userCount': userCount + 1 })
         }
         else {
             userCountRef.set({
@@ -162,10 +165,9 @@ Basic Configuration for Firebase
             });
             console.log("You have no posts :(");
         }
-        
+
         let date = new Date();
-        let finalTime = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate() + '-' + date.getHours() + ':' + date.getMinutes();
-        firebase.database().ref('users/' + (localStorage.getItem("idCurrent") + '/') + 'posts/' + 'userPosts/' +  finalTime + '/' + postVal).set({
+        firebase.database().ref('users/' + (localStorage.getItem("idCurrent") + '/') + 'posts/' + 'userPosts/' + '/' + postVal).set({
             email: localStorage.getItem("emailCurrent"),
             content: content,
             date: date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear(),
@@ -184,11 +186,22 @@ Basic Configuration for Firebase
             op3: op3.value,
             op4: op4.value,
         });
+        firebase.database().ref('userIDs/' + localStorage.getItem('idCurrent') + '/' + postVal).set({
+            email: localStorage.getItem("emailCurrent"),
+            id: localStorage.getItem("idCurrent"),
+            content: content,
+            date: date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear(),
+            op1: op1.value,
+            op2: op2.value,
+            op3: op3.value,
+            op4: op4.value,
+        });
     }
 
     // simple on click event for the post button. posts the textbox value
     // and refreshes the textbox into "" after that.
-
+if (buttonPost)
+{
     buttonPost.addEventListener('click', e => {
         if (txtEmail.textLength <= 60 && op1.value.length <= 20 && op2.value.length <= 20 && op3.value.length <= 20 && op4.value.length <= 20) {
             textLengthGood();
@@ -224,11 +237,7 @@ Basic Configuration for Firebase
             op4.placeholder = "The character limit is: 20";
         }
     });
-
-    var testRef = firebase.database().ref('users/' + '79wSyXX6YOX7ntfubSrB6cuH0ck1/' + 'posts/' + '2020-3-7-16:43/' + 'content');
-    testRef.on('value', function (snapshot) {
-        testCard.innerText = JSON.stringify(snapshot.val());
-    });
+}
 }());
 
 // python -m SimpleHTTPServer | Command for setting up localhost

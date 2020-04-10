@@ -23,9 +23,9 @@
     <div class="spacer-main">
         <center>
             <div class="black-box largeh">
-                <h1 style="color: white;" id="tester">
+                <h3 style="color: white;" id="tester">
                     Post Poll
-                </h1>
+                </h3>
                 <textarea id="txtEmail" type="text" placeholder="Question" class="contentbox"></textarea>
                 <br>
                 <input id="op1" type="text" placeholder="Option 1" class="inputbox">
@@ -116,7 +116,7 @@
         function returnQ(id, element) {
             var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'content');
             testRef.on('value', function (snapshot) {
-                element.innerText = JSON.stringify(snapshot.val());
+                element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
                 console.log(element);
                 console.log(element.innerText)
             });
@@ -125,7 +125,7 @@
         function returnOp1(id, element) {
             var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op1');
             testRef.on('value', function (snapshot) {
-                element.innerText = JSON.stringify(snapshot.val());
+                element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
                 console.log(element);
                 console.log(element.innerText)
             });
@@ -134,7 +134,7 @@
         function returnOp2(id, element) {
             var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op2');
             testRef.on('value', function (snapshot) {
-                element.innerText = JSON.stringify(snapshot.val());
+                element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
                 console.log(element);
                 console.log(element.innerText)
             });
@@ -143,7 +143,7 @@
         function returnOp3(id, element) {
             var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op3');
             testRef.on('value', function (snapshot) {
-                element.innerText = JSON.stringify(snapshot.val());
+                element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
                 console.log(element);
                 console.log(element.innerText)
             });
@@ -152,7 +152,7 @@
         function returnOp4(id, element) {
             var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op4');
             testRef.on('value', function (snapshot) {
-                element.innerText = JSON.stringify(snapshot.val());
+                element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
                 console.log(element);
                 console.log(element.innerText)
             });
@@ -161,7 +161,7 @@
         function returnBy(id, element) {
             var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'email');
             testRef.on('value', function (snapshot) {
-                element.innerText = 'By: ' + JSON.stringify(snapshot.val());
+                element.innerText = 'By: ' + JSON.stringify(snapshot.val()).slice(1, -1);
                 console.log(element);
                 console.log(element.innerText)
             });
@@ -177,7 +177,7 @@
             black_box.setAttribute('class', 'black-card');
             black_box.setAttribute('style', 'color: white;');
             var header = document.createElement('h3');
-            returnQ(cardId, header)
+            returnQ(cardId, header);
             header.setAttribute('style', 'color: white;')
             black_box.appendChild(header);
             var br1 = document.createElement('br');

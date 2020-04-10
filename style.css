@@ -114,8 +114,16 @@ li a:hover:not(.active) {
   height: 500px;
 }
 
+.smallh {
+  height: 60px;
+}
+
+.smallw {
+  width: 300px;
+}
+
 .largew {
-  widows: 600px;
+  width: 600px;
 }
 
 .black-card {
