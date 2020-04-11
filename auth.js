@@ -41,10 +41,7 @@ Basic Configuration for Firebase
     const op3 = document.getElementById('op3');
     const op4 = document.getElementById('op4');
 
-    const testCard = document.getElementById('testCard');
-    var postage = {
-        totalPostCount: 0,
-    };
+
 
 
     // login event
@@ -176,6 +173,7 @@ Basic Configuration for Firebase
             op3: op3.value,
             op4: op4.value,
         });
+        
         firebase.database().ref('totalPosts/' + postVal).set({
             email: localStorage.getItem("emailCurrent"),
             id: localStorage.getItem("idCurrent"),
@@ -195,6 +193,64 @@ Basic Configuration for Firebase
             op2: op2.value,
             op3: op3.value,
             op4: op4.value,
+        });
+
+        // options
+
+        firebase.database().ref('users/' + localStorage.getItem("idCurrent") + '/' + 'posts/' + 'userPosts/' + postVal + '/' + 'op1/').set({
+            text: op1.value,
+            count: 0,
+        });
+        
+        firebase.database().ref('totalPosts/' + postVal + '/' + 'op1/').set({
+            text: op1.value,
+            count: 0,
+        });
+        firebase.database().ref('userIDs/' + localStorage.getItem('idCurrent') + '/' + postVal + '/' + 'op1/').set({
+            text: op1.value,
+            count: 0,
+        });
+
+        firebase.database().ref('users/' + localStorage.getItem("idCurrent") + '/' + 'posts/' + 'userPosts/' + postVal + '/' + 'op2/').set({
+            text: op2.value,
+            count: 0,
+        });
+        
+        firebase.database().ref('totalPosts/' + postVal + '/' + 'op2/').set({
+            text: op2.value,
+            count: 0,
+        });
+        firebase.database().ref('userIDs/' + localStorage.getItem('idCurrent') +'/' + postVal + '/' + 'op2/').set({
+            text: op2.value,
+            count: 0,
+        });
+
+        firebase.database().ref('users/' + localStorage.getItem("idCurrent") + '/' + 'posts/' + 'userPosts/' + postVal + '/' + 'op3/').set({
+            text: op3.value,
+            count: 0,
+        });
+        
+        firebase.database().ref('totalPosts/' + postVal + '/' + 'op3/').set({
+            text: op3.value,
+            count: 0,
+        });
+        firebase.database().ref('userIDs/' + localStorage.getItem('idCurrent') + '/' + postVal + '/' + 'op3/').set({
+            text: op3.value,
+            count: 0,
+        });
+
+        firebase.database().ref('users/' + localStorage.getItem("idCurrent") + '/' + 'posts/' + 'userPosts/' + postVal + '/' + 'op4/').set({
+            text: op4.value,
+            count: 0,
+        });
+        
+        firebase.database().ref('totalPosts/' + postVal + '/' + 'op4/').set({
+            text: op4.value,
+            count: 0,
+        });
+        firebase.database().ref('userIDs/' + localStorage.getItem('idCurrent') + '/' + postVal + '/' + 'op4/').set({
+            text: op4.value,
+            count: 0,
         });
     }
 
@@ -238,6 +294,11 @@ if (buttonPost)
         }
     });
 }
+
+// option button code
+
+
+
 }());
 
 // python -m SimpleHTTPServer | Command for setting up localhost

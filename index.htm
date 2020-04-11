@@ -112,6 +112,7 @@
 
         console.log("Start Count");
         setTimeout(() => { enterPosts() }, 10000);
+        setTimeout(() => { initializeOptions('1', 0) }, 10000);
 
         function returnQ(id, element) {
             var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'content');
@@ -123,36 +124,50 @@
         }
 
         function returnOp1(id, element) {
-            var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op1');
+            var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op1/' + 'text');
             testRef.on('value', function (snapshot) {
                 element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
+                element.addEventListener("click", function (event) {
+                    optionButtonClick('1', id)
+                });
                 console.log(element);
                 console.log(element.innerText)
             });
         }
 
         function returnOp2(id, element) {
-            var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op2');
+            var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op2/' + 'text');
             testRef.on('value', function (snapshot) {
-                element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
+                let x =
+                    element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
+                element.addEventListener("click", function (event) {
+                    optionButtonClick('2', id)
+                });
                 console.log(element);
                 console.log(element.innerText)
             });
         }
 
         function returnOp3(id, element) {
-            var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op3');
+            var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op3/' + 'text');
             testRef.on('value', function (snapshot) {
                 element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
+                element.addEventListener("click", function (event) {
+                    optionButtonClick('3', id)
+                });
                 console.log(element);
                 console.log(element.innerText)
             });
         }
 
         function returnOp4(id, element) {
-            var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op4');
+            var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op4/' + 'text');
             testRef.on('value', function (snapshot) {
                 element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
+                element.addEventListener("click", function (event) {
+                    optionButtonClick('4', id)
+                });
+                console.log(element.onclick)
                 console.log(element);
                 console.log(element.innerText)
             });
@@ -205,6 +220,148 @@
             black_box.appendChild(byText);
             byText.setAttribute('style', 'text-align: center;');
             document.body.appendChild(spacer);
+        }
+
+        // option logic
+        let val1;
+        let val2;
+        let val3;
+        let val4;
+        function optionButtonClick(opNum, id) {
+            let refSnapshot;
+            let notclicked;
+            // check if user has already clicked the button
+            firebase.database().ref('totalPosts/' + id + '/' + 'usersClicked/').on('value', function (snapshot) {
+                refSnapshot = snapshot;
+
+                if (!snapshot.hasChild(localStorage.getItem('idCurrent'))) {
+                    notclicked = true;
+                    console.log('snap')
+                }
+                else {
+                    notclicked = false;
+                    console.log('snaps')
+                }
+            });
+
+            if (notclicked) {
+
+                console.log('not clicked');
+                firebase.database().ref('totalPosts/' + id + '/' + 'usersClicked/' + localStorage.getItem('idCurrent') + '/').set({
+                    in: 'true',
+                });
+                // ('totalPosts/' + id + '/' + 'op1/' + 'count')
+                firebase.database().ref('totalPosts/' + id + '/' + 'op1/' + 'count/').once('value', function (snapshot) {
+                    val1 = snapshot.val();
+                    console.log(val1);
+                });
+                firebase.database().ref('totalPosts/' + id + '/' + 'op2/' + 'count/').once('value', function (snapshot) {
+                    val2 = snapshot.val();
+                });
+                firebase.database().ref('totalPosts/' + id + '/' + 'op3/' + 'count/').once('value', function (snapshot) {
+                    val3 = snapshot.val();
+                });
+                firebase.database().ref('totalPosts/' + id + '/' + 'op4/' + 'count/').once('value', function (snapshot) {
+                    val4 = snapshot.val();
+                });
+
+                val1 = parseInt(val1);
+                val2 = parseInt(val2);
+                val3 = parseInt(val3);
+                val4 = parseInt(val4);
+
+
+                if (opNum == '1') {
+                    console.log(parseInt(val1) + ' Val1 is')
+                    firebase.database().ref('totalPosts/' + id + '/' + 'op1/').update({
+                        'count': val1 + 1
+                    });
+                }
+                else if (opNum == '2') {
+                    firebase.database().ref('totalPosts/' + id + '/' + 'op2/').update({
+                        'count': val2 + 1
+                    });
+                }
+                else if (opNum == '3') {
+                    firebase.database().ref('totalPosts/' + id + '/' + 'op3/').update({
+                        'count': val3 + 1
+                    });
+                }
+                else if (opNum == '4' && val4 != NaN) {
+                    firebase.database().ref('totalPosts/' + id + '/' + 'op4/').update({
+                        'count': val4 + 1
+                    });
+                }
+            }
+            else {
+                console.log('clicked');
+                console.log(id);
+            }
+        }
+
+        function initializeOptions(opNum, id) {
+            let refSnapshot;
+            let notclicked;
+            // check if user has already clicked the button
+            firebase.database().ref('totalPosts/' + id + '/' + 'usersClicked/').on('value', function (snapshot) {
+                refSnapshot = snapshot;
+
+                if (!snapshot.hasChild(localStorage.getItem('idCurrent'))) {
+                    notclicked = true;
+                    console.log('snap')
+                }
+                else {
+                    notclicked = false;
+                    console.log('snaps')
+                }
+
+                console.log('ran notcliked');
+
+            });
+
+
+            // ('totalPosts/' + id + '/' + 'op1/' + 'count')
+            firebase.database().ref('totalPosts/' + id + '/' + 'op1/' + 'count/').once('value', function (snapshot) {
+                val1 = snapshot.val();
+                console.log(val1);
+            });
+            firebase.database().ref('totalPosts/' + id + '/' + 'op2/' + 'count/').once('value', function (snapshot) {
+                val2 = snapshot.val();
+            });
+            firebase.database().ref('totalPosts/' + id + '/' + 'op3/' + 'count/').once('value', function (snapshot) {
+                val3 = snapshot.val();
+            });
+            firebase.database().ref('totalPosts/' + id + '/' + 'op4/' + 'count/').once('value', function (snapshot) {
+                val4 = snapshot.val();
+            });
+
+            val1 = parseInt(val1);
+            val2 = parseInt(val2);
+            val3 = parseInt(val3);
+            val4 = parseInt(val4);
+
+
+            if (opNum == '1') {
+                console.log(parseInt(val1) + ' Val1 is')
+                firebase.database().ref('totalPosts/' + id + '/' + 'op1/').update({
+                    'count': val1
+                });
+            }
+            else if (opNum == '2') {
+                firebase.database().ref('totalPosts/' + id + '/' + 'op2/').update({
+                    'count': val2
+                });
+            }
+            else if (opNum == '3') {
+                firebase.database().ref('totalPosts/' + id + '/' + 'op3/').update({
+                    'count': val3
+                });
+            }
+            else if (opNum == '4' && val4 != NaN) {
+                firebase.database().ref('totalPosts/' + id + '/' + 'op4/').update({
+                    'count': val4
+                });
+            }
         }
 
     </script>
