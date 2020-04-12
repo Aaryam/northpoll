@@ -42,6 +42,25 @@ Basic Configuration for Firebase
     const op4 = document.getElementById('op4');
 
 
+    // authentication,  email link
+
+    var actionCodeSettings = {
+        // URL you want to redirect back to. The domain (www.example.com) for this
+        // URL must be whitelisted in the Firebase Console.
+        url: 'aaryam.github.io/northpoll',
+        // This must be true.
+        handleCodeInApp: true,
+        iOS: {
+          bundleId: 'com.example.ios'
+        },
+        android: {
+          packageName: 'com.example.android',
+          installApp: true,
+          minimumVersion: '12'
+        },
+        dynamicLinkDomain: 'example.page.link'
+      };
+
 
 
     // login event
@@ -62,7 +81,6 @@ Basic Configuration for Firebase
 
             // TODO: Check if email is legit :D
             // do so by doing some email authentication code & logic
-
             const email = txtEmail.value;
             const pass = txtPassword.value;
             const auth = firebase.auth();

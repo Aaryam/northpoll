@@ -7,11 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" type="text/css" href="style.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="icon/ico.ico" type="image/x-icon">
     <title>NorthPoll | Profile</title>
 </head>
 <ul>
     <li><a href="index.htm">Home</a></li>
-    <li><a href="post.htm">Post</a></li>
     <li><a href="contact.htm">Contact</a></li>
     <li style="float:right;" id="buttonLogout"><a href="#logging-out">Log Out</a></li>
     <li style="float:right;" id="myProfile"><a href="profile.htm">My Profile</a></li>
@@ -25,6 +25,15 @@
             <div class="black-box smallh smallw">
                 <h3 style="color: white;" id="emailName"></h3>
         </center>
+        <div class="spacer-main">
+            <center>
+                <div class="white-box" id="alertBox">
+                    <div id="piechart"></div>
+                    <button id="alertButtonClose" style="float: right; color: rgb(240, 240, 240);"
+                        class="register-button" onclick="closeWindow('alertBox')">&#x2716;</button>
+                </div>
+            </center>
+        </div>
     </div>
 
     <!--Javascript reference-->
@@ -33,8 +42,15 @@
     <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-analytics.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-database.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="auth.js"></script>
     <script>
+        let val1;
+        let val2;
+        let val3;
+        let val4;
+
+        google.charts.load('current', { 'packages': ['corechart'] });
         let postVal;
         let isSameEmail;
         let x2;
@@ -54,8 +70,8 @@
                     var testRef = firebase.database().ref('userIDs/' + localStorage.getItem('idCurrent') + "/");
                     testRef.on('value', function (snapshot) {
                         if (snapshot.hasChild(index + '/')) {
-                        createCard(index, localStorage.getItem("emailCurrent"));
-                    }
+                            createCard(index, localStorage.getItem("emailCurrent"));
+                        }
                     });
                 }
                 console.log('10 seconds ended');
@@ -78,12 +94,18 @@
             testRef.on('value', function (snapshot) {
                 element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
             });
+            element.addEventListener("click", function (event) {
+                runbutton('1', id)
+            });
         }
 
         function returnOp2(id, element) {
             var testRef = firebase.database().ref('userIDs/' + localStorage.getItem('idCurrent') + '/' + id + '/' + 'op2/' + 'text');
             testRef.on('value', function (snapshot) {
                 element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
+            });
+            element.addEventListener("click", function (event) {
+                runbutton('2', id)
             });
         }
 
@@ -92,12 +114,18 @@
             testRef.on('value', function (snapshot) {
                 element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
             });
+            element.addEventListener("click", function (event) {
+                runbutton('3', id)
+            });
         }
 
         function returnOp4(id, element) {
             var testRef = firebase.database().ref('userIDs/' + localStorage.getItem('idCurrent') + '/' + id + '/' + 'op4/' + 'text');
             testRef.on('value', function (snapshot) {
                 element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
+            });
+            element.addEventListener("click", function (event) {
+                runbutton('4', id)
             });
         }
 
@@ -145,9 +173,45 @@
             var byText = document.createElement('p');
             returnBy(cardId, byText);
             black_box.appendChild(byText);
+            var graphButton = document.createElement('button');
+            graphButton.setAttribute('class', 'register-button');
+            graphButton.setAttribute('id', 'openGraph');
+            black_box.appendChild(byText);
             byText.setAttribute('style', 'text-align: center;');
             document.body.appendChild(spacer);
         }
+
+        function drawChart(op1, op2, op3, op4) {
+            var data = google.visualization.arrayToDataTable([
+                ['Task', 'Hours per Day'],
+                ['Option 1', op1],
+                ['Option 2', op2],
+                ['Option 3', op3],
+                ['Optiom 4', op4],
+            ]);
+
+            // Optional; add a title and set the width and height of the chart
+            var options = { backgroundColor: 'transparent', 'title': 'Options', 'width': 400, 'height': 250 };
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+            chart.draw(data, options);
+        }
+        function runbutton(opButton, id) {
+            firebase.database().ref('totalPosts/' + id + '/' + 'op1/' + 'count/').once('value', function (snapshot) {
+                val1 = snapshot.val();
+                console.log(val1);
+            });
+            firebase.database().ref('totalPosts/' + id + '/' + 'op2/' + 'count/').once('value', function (snapshot) {
+                val2 = snapshot.val();
+            });
+            firebase.database().ref('totalPosts/' + id + '/' + 'op3/' + 'count/').once('value', function (snapshot) {
+                val3 = snapshot.val();
+            });
+            firebase.database().ref('totalPosts/' + id + '/' + 'op4/' + 'count/').once('value', function (snapshot) {
+                val4 = snapshot.val();
+            });
+            google.charts.setOnLoadCallback(drawChart(val1, val2, val3, val4));
+        }
+
     </script>
 </body>
 
