@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
     <title>NorthPoll | Post</title>
+    <link rel="shortcut icon" href="/ico.ico" type="image/x-icon">
 </head>
 <ul>
     <li><a href="index.htm">Home</a></li>
@@ -52,7 +53,11 @@
                 </button>
             </div>
             <div class="spacer-main">
-
+                <div class="white-box" id="alertBox" style="z-index: 1;">
+                    <div id="piechart"></div>
+                    <button id="alertButtonClose" style="float: right; color: rgb(240, 240, 240);"
+                        class="register-button" onclick="closeWindow('alertBox')">&#x2716;</button>
+                </div>
             </div>
         </center>
     </div>
@@ -63,6 +68,7 @@
     <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-analytics.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-database.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="auth.js"></script>
     <script>
         let postVal;
@@ -91,6 +97,7 @@
                 add.classList.add('hide');
             }
         }
+        google.charts.load('current', { 'packages': ['corechart'] });
 
         firebase.database().ref('users/' + 'totalCount/').on('value', function (snapshot) {
             postVal = snapshot.val();
@@ -222,6 +229,21 @@
             document.body.appendChild(spacer);
         }
 
+        function drawChart(op1, op2, op3, op4) {
+            var data = google.visualization.arrayToDataTable([
+                ['Task', 'Hours per Day'],
+                ['Option 1', op1],
+                ['Option 2', op2],
+                ['Option 3', op3],
+                ['Optiom 4', op4],
+            ]);
+
+            // Optional; add a title and set the width and height of the chart
+            var options = { backgroundColor: 'transparent', 'title': 'Options', 'width': 400, 'height': 250 };
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+            chart.draw(data, options);
+        }
+
         // option logic
         let val1;
         let val2;
@@ -296,6 +318,7 @@
             else {
                 console.log('clicked');
                 console.log(id);
+                google.charts.setOnLoadCallback(drawChart(val1, val2, val3, val4));
             }
         }
 

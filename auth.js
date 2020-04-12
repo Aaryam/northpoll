@@ -295,9 +295,14 @@ if (buttonPost)
     });
 }
 
-// option button code
+// alertbox functions
 
-
+function closeWindow(id) {
+    document.getElementById(id).classList.add('hide');
+}
+function openWindow(id) {
+    document.getElementById(id).classList.remove('hide');
+}
 
 }());
 
