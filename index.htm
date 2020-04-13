@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
     <title>NorthPoll | Post</title>
-    <link rel="shortcut icon" href="icon/ico.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="icon/favicon.ico" type="image/x-icon">
 </head>
 <ul>
     <li><a href="index.htm">Home</a></li>
@@ -51,13 +51,15 @@
                     -
                 </button>
             </div>
-            <div class="spacer-main">
-                <div class="white-box" id="alertBox">
-                    <div id="piechart"></div>
-                    <button id="alertButtonClose" style="float: right; color: rgb(240, 240, 240);"
-                        class="register-button" onclick="closeWindow('alertBox')">&#x2716;</button>
+            <center>
+                <div class="spacer-main">
+                    <div class="white-box hide" id="alertBox">
+                        <div id="piechart"></div>
+                        <button id="alertButtonClose" style="float: right; color: rgb(240, 240, 240);"
+                            class="register-button" onclick="closeWindow('alertBox')">&#x2716;</button>
+                    </div>
                 </div>
-            </div>
+            </center>
         </center>
     </div>
 
@@ -136,6 +138,9 @@
                 element.addEventListener("click", function (event) {
                     optionButtonClick('1', id)
                 });
+                element.addEventListener("dblclick", function (event) {
+                    showGraph();
+                });
                 console.log(element);
                 console.log(element.innerText)
             });
@@ -149,6 +154,9 @@
                 element.addEventListener("click", function (event) {
                     optionButtonClick('2', id)
                 });
+                element.addEventListener("dblclick", function (event) {
+                    showGraph();
+                });
                 console.log(element);
                 console.log(element.innerText)
             });
@@ -161,6 +169,9 @@
                 element.addEventListener("click", function (event) {
                     optionButtonClick('3', id)
                 });
+                element.addEventListener("dblclick", function (event) {
+                    showGraph();
+                });
                 console.log(element);
                 console.log(element.innerText)
             });
@@ -172,6 +183,9 @@
                 element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
                 element.addEventListener("click", function (event) {
                     optionButtonClick('4', id)
+                });
+                element.addEventListener("dblclick", function (event) {
+                    showGraph();
                 });
                 console.log(element.onclick)
                 console.log(element);
@@ -248,8 +262,26 @@
         let val2;
         let val3;
         let val4;
-        function optionButtonClick(opNum, id) {
 
+        function showGraph() {
+            google.charts.setOnLoadCallback(drawChart(val1, val2, val3, val4));
+            openWindow('alertBox');
+        }
+
+        function optionButtonClick(opNum, id) {
+            firebase.database().ref('totalPosts/' + id + '/' + 'op1/' + 'count/').once('value', function (snapshot) {
+                val1 = snapshot.val();
+                console.log(val1);
+            });
+            firebase.database().ref('totalPosts/' + id + '/' + 'op2/' + 'count/').once('value', function (snapshot) {
+                val2 = snapshot.val();
+            });
+            firebase.database().ref('totalPosts/' + id + '/' + 'op3/' + 'count/').once('value', function (snapshot) {
+                val3 = snapshot.val();
+            });
+            firebase.database().ref('totalPosts/' + id + '/' + 'op4/' + 'count/').once('value', function (snapshot) {
+                val4 = snapshot.val();
+            });
             let refSnapshot;
             let notclicked;
             // check if user has already clicked the button
@@ -276,19 +308,6 @@
                     in: 'true',
                 });
                 // ('totalPosts/' + id + '/' + 'op1/' + 'count')
-                firebase.database().ref('totalPosts/' + id + '/' + 'op1/' + 'count/').once('value', function (snapshot) {
-                    val1 = snapshot.val();
-                    console.log(val1);
-                });
-                firebase.database().ref('totalPosts/' + id + '/' + 'op2/' + 'count/').once('value', function (snapshot) {
-                    val2 = snapshot.val();
-                });
-                firebase.database().ref('totalPosts/' + id + '/' + 'op3/' + 'count/').once('value', function (snapshot) {
-                    val3 = snapshot.val();
-                });
-                firebase.database().ref('totalPosts/' + id + '/' + 'op4/' + 'count/').once('value', function (snapshot) {
-                    val4 = snapshot.val();
-                });
 
                 val1 = parseInt(val1);
                 val2 = parseInt(val2);
@@ -321,7 +340,6 @@
             else {
                 console.log('clicked');
                 console.log(id);
-                google.charts.setOnLoadCallback(drawChart(val1, val2, val3, val4));
             }
         }
 
@@ -388,6 +406,13 @@
                     'count': val4
                 });
             }
+        }
+
+        function closeWindow(id) {
+            document.getElementById(id).classList.add('hide');
+        }
+        function openWindow(id) {
+            document.getElementById(id).classList.remove('hide');
         }
 
     </script>

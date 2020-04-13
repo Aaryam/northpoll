@@ -133,7 +133,7 @@
             var testRef = firebase.database().ref('userIDs/' + localStorage.getItem('idCurrent') + '/' + id + '/' + 'email');
             testRef.on('value', function (snapshot) {
                 element.innerText = 'By: ' + JSON.stringify(snapshot.val()).slice(1, -1);
-                console.log(element.innerHTML)
+                console.log(element.innerHTML);
             });
         }
 
@@ -144,7 +144,7 @@
             spacer.appendChild(center);
             var black_box = document.createElement('div');
             center.appendChild(black_box);
-            black_box.setAttribute('class', 'black-card');
+            black_box.setAttribute('class', 'white-box nonfixed');
             black_box.setAttribute('style', 'color: white;');
             var header = document.createElement('h3');
             returnQ(cardId, header)
