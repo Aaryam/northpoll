@@ -159,10 +159,7 @@ pre {
 
 @media only screen and (max-width: 600px) {
   .black-card {
-    border-radius: 25px;
-    padding: 20px; 
     width: 400px;
-    height: 300px;
   }
   .black-box {
     width: 400px;
@@ -178,5 +175,25 @@ pre {
   }
   .register-button {
     padding: 10px 20px;
+  }
+}
+@media only screen and (max-width: 300px) {
+  .black-card {
+    width: 200px;
+  }
+  .black-box {
+    width: 200px;
+  }
+  .contentbox {
+    width: 150px;
+  }
+  .inputbox {
+    width: 170px;
+  }
+  .white-box {
+    width: 150px;
+  }
+  .register-button {
+    padding: 5px 10px;
   }
 }
