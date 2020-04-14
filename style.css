@@ -122,6 +122,7 @@ li a:hover:not(.active) {
   position: fixed;
   left: 166px;
   top: 100px;
+  margin: 0 auto;
 }
 
 .largeh {
@@ -198,5 +199,45 @@ pre {
   }
   .register-button {
     padding: 5px 10px;
+  }
+}
+@media only screen and (max-width: 200px) {
+  .black-card {
+    width: 150px;
+  }
+  .black-box {
+    width: 150px;
+  }
+  .contentbox {
+    width: 100px;
+  }
+  .inputbox {
+    width: 120px;
+  }
+  .white-box {
+    width: 100px;
+  }
+  .register-button {
+    padding: 3.3px 6.6px;
+  }
+}
+@media only screen and (max-width: 150px) {
+  .black-card {
+    width: 100px;
+  }
+  .black-box {
+    width: 100px;
+  }
+  .contentbox {
+    width: 50px;
+  }
+  .inputbox {
+    width: 70px;
+  }
+  .white-box {
+    width: 75px;
+  }
+  .register-button {
+    padding: 2.5px 5px;
   }
 }
