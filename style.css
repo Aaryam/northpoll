@@ -156,3 +156,27 @@ li a:hover:not(.active) {
 pre {
   font-family: 'Roboto';
 }
+
+@media only screen and (max-width: 600px) {
+  .black-card {
+    border-radius: 25px;
+    padding: 20px; 
+    width: 400px;
+    height: 300px;
+  }
+  .black-box {
+    width: 400px;
+  }
+  .contentbox {
+    width: 300px;
+  }
+  .inputbox {
+    width: 340px;
+  }
+  .white-box {
+    width: 300px;
+  }
+  .register-button {
+    padding: 10px 20px;
+  }
+}
