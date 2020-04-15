@@ -8,4 +8,6 @@ I want to, and will update the website. Hopefully frequently as well.
 As of now I am working on the website responsiveness and the UX design.
 
 I really hope that the website I am building is as great as I envision it to be.
-Thanks, Aaryam
+
+Thanks,
+       Aaryam
