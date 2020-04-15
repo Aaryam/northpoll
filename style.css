@@ -53,8 +53,6 @@ li a:hover:not(.active) {
 .spacer-main {
   margin-left: 25px;
   margin-top: 100px;
-  display: flex;
-  flex-direction: column;
 }
 
 .inputbox {
@@ -149,9 +147,6 @@ li a:hover:not(.active) {
   padding: 20px; 
   width: 500px;
   height: 300px;
-  display: flex;
-  flex-direction: column;
-  flex-shrink: initial;
 }
 
 .nonfixed {
@@ -208,22 +203,22 @@ pre {
 }
 @media only screen and (max-width: 200px) {
   .black-card {
-    width: 150px;
-  }
-  .black-box {
-    width: 130px;
-  }
-  .inputbox {
-    width: 100px;
-  }
-  .contentbox {
-    width: 100px;
-  }
-  .inputbox {
     width: 120px;
   }
-  .white-box {
+  .black-box {
+    width: 110px;
+  }
+  .inputbox {
+    width: 80px;
+  }
+  .contentbox {
+    width: 80px;
+  }
+  .inputbox {
     width: 100px;
+  }
+  .white-box {
+    width: 80px;
   }
   .register-button {
     padding: 3.3px 6.6px;
