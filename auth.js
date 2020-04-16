@@ -51,15 +51,15 @@ Basic Configuration for Firebase
         // This must be true.
         handleCodeInApp: true,
         iOS: {
-          bundleId: 'com.example.ios'
+            bundleId: 'com.example.ios'
         },
         android: {
-          packageName: 'com.example.android',
-          installApp: true,
-          minimumVersion: '12'
+            packageName: 'com.example.android',
+            installApp: true,
+            minimumVersion: '12'
         },
         dynamicLinkDomain: 'example.page.link'
-      };
+    };
 
 
 
@@ -90,9 +90,11 @@ Basic Configuration for Firebase
         });
     }
 
-    buttonLogout.addEventListener('click', e => {
-        firebase.auth().signOut();
-    })
+    if (buttonLogout != null) {
+        buttonLogout.addEventListener('click', e => {
+            firebase.auth().signOut();
+        })
+    }
 
     // realtime listener -> checks for if the user has logged in or not.
     // moves to index.htm if has logged, and moves to login.htm if logged out.
@@ -108,15 +110,14 @@ Basic Configuration for Firebase
                 localStorage.setItem("emailCurrent", firebaseUser.email);
                 localStorage.setItem("idCurrent", firebaseUser.uid);
             }
-            else if (windowVar.includes("profile.htm"))
-            {
+            else if (windowVar.includes("profile.htm")) {
                 console.log("Profile Page");
             }
         }
         else {
             console.log("User not signed in");
             let windowVar = window.location.pathname + window.location.search;
-            if (!windowVar.includes("login.htm")) {
+            if (!windowVar.includes("login.htm") || !windowVar.includes("register.htm")) {
                 window.location.reload();
                 window.location.href = "login.htm";
                 localStorage.setItem("emailCurrent", null);
@@ -191,7 +192,7 @@ Basic Configuration for Firebase
             op3: op3.value,
             op4: op4.value,
         });
-        
+
         firebase.database().ref('totalPosts/' + postVal).set({
             email: localStorage.getItem("emailCurrent"),
             id: localStorage.getItem("idCurrent"),
@@ -219,7 +220,7 @@ Basic Configuration for Firebase
             text: op1.value,
             count: 0,
         });
-        
+
         firebase.database().ref('totalPosts/' + postVal + '/' + 'op1/').set({
             text: op1.value,
             count: 0,
@@ -233,12 +234,12 @@ Basic Configuration for Firebase
             text: op2.value,
             count: 0,
         });
-        
+
         firebase.database().ref('totalPosts/' + postVal + '/' + 'op2/').set({
             text: op2.value,
             count: 0,
         });
-        firebase.database().ref('userIDs/' + localStorage.getItem('idCurrent') +'/' + postVal + '/' + 'op2/').set({
+        firebase.database().ref('userIDs/' + localStorage.getItem('idCurrent') + '/' + postVal + '/' + 'op2/').set({
             text: op2.value,
             count: 0,
         });
@@ -247,7 +248,7 @@ Basic Configuration for Firebase
             text: op3.value,
             count: 0,
         });
-        
+
         firebase.database().ref('totalPosts/' + postVal + '/' + 'op3/').set({
             text: op3.value,
             count: 0,
@@ -261,7 +262,7 @@ Basic Configuration for Firebase
             text: op4.value,
             count: 0,
         });
-        
+
         firebase.database().ref('totalPosts/' + postVal + '/' + 'op4/').set({
             text: op4.value,
             count: 0,
@@ -274,44 +275,43 @@ Basic Configuration for Firebase
 
     // simple on click event for the post button. posts the textbox value
     // and refreshes the textbox into "" after that.
-if (buttonPost)
-{
-    buttonPost.addEventListener('click', e => {
-        if (txtEmail.textLength <= 60 && op1.value.length <= 20 && op2.value.length <= 20 && op3.value.length <= 20 && op4.value.length <= 20) {
-            textLengthGood();
-        }
-        else if (txtEmail.textLength > 60 || op1.value.length > 20 || op2.value.length > 20 || op3.value.length > 20 || op4.value.length > 20) {
-            textLengthBad();
-        }
+    if (buttonPost) {
+        buttonPost.addEventListener('click', e => {
+            if (txtEmail.textLength <= 60 && op1.value.length <= 20 && op2.value.length <= 20 && op3.value.length <= 20 && op4.value.length <= 20) {
+                textLengthGood();
+            }
+            else if (txtEmail.textLength > 60 || op1.value.length > 20 || op2.value.length > 20 || op3.value.length > 20 || op4.value.length > 20) {
+                textLengthBad();
+            }
 
-        function textLengthGood() {
-            txtEmail.placeholder = "Content";
-            op1.placeholder = "Option 1";
-            op2.placeholder = "Option 2";
-            op3.placeholder = "Option 3";
-            op4.placeholder = "Option 4";
-            addPost(txtEmail.value);
-            txtEmail.value = "";
-            op1.value = "";
-            op2.value = "";
-            op3.value = "";
-            op4.value = "";
-        }
+            function textLengthGood() {
+                txtEmail.placeholder = "Content";
+                op1.placeholder = "Option 1";
+                op2.placeholder = "Option 2";
+                op3.placeholder = "Option 3";
+                op4.placeholder = "Option 4";
+                addPost(txtEmail.value);
+                txtEmail.value = "";
+                op1.value = "";
+                op2.value = "";
+                op3.value = "";
+                op4.value = "";
+            }
 
-        function textLengthBad() {
-            txtEmail.value = "";
-            op1.value = "";
-            op2.value = "";
-            op3.value = "";
-            op4.value = "";
-            txtEmail.placeholder = "The character limit is: 60";
-            op1.placeholder = "The character limit is: 20";
-            op2.placeholder = "The character limit is: 20";
-            op3.placeholder = "The character limit is: 20";
-            op4.placeholder = "The character limit is: 20";
-        }
-    });
-}
+            function textLengthBad() {
+                txtEmail.value = "";
+                op1.value = "";
+                op2.value = "";
+                op3.value = "";
+                op4.value = "";
+                txtEmail.placeholder = "The character limit is: 60";
+                op1.placeholder = "The character limit is: 20";
+                op2.placeholder = "The character limit is: 20";
+                op3.placeholder = "The character limit is: 20";
+                op4.placeholder = "The character limit is: 20";
+            }
+        });
+    }
 
 }());
 
