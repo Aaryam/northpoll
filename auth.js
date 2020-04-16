@@ -117,7 +117,7 @@ Basic Configuration for Firebase
         else {
             console.log("User not signed in");
             let windowVar = window.location.pathname + window.location.search;
-            if (!windowVar.includes("login.htm") || !windowVar.includes("register.htm")) {
+            if (!windowVar.includes("login.htm")) {
                 window.location.reload();
                 window.location.href = "login.htm";
                 localStorage.setItem("emailCurrent", null);
