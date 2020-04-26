@@ -162,26 +162,23 @@ pre {
   font-family: 'Roboto';
 }
 
-@media only screen and (max-width: 800px) {
-  .black-card {
-    width: 400px;
+@media only screen and (max-width: 260px) {
+  input 				{
+    font-size:18px;
+    padding:10px 10px 10px 5px;
+    display:block;
+    width: 100px;
+    border:none;
+    border-bottom:1px solid #757575;
   }
-  .black-box {
-    width: 400px;
-  }
-  .contentbox {
-    width: 300px;
-  }
-  .inputbox {
-    width: 340px;
-  }
-  .white-box {
-    width: 300px;
-  }
-  .register-button {
-    padding: 10px 20px;
+  .bar 	{ 
+    width:100px; 
   }
 }
+
+* { box-sizing:border-box; }
+
+/* basic stylings ------------------------------------------ */
 
 .container 		{ 
   font-family:'Roboto';
@@ -203,56 +200,23 @@ h2 small {
 .footer 	{ text-align:center; }
 .footer a  { color:#53B2C8; }
 
-* { box-sizing:border-box; }
-
-/* basic stylings ------------------------------------------ */
-body                 { background:url(https://scotch.io/wp-content/uploads/2014/07/61.jpg); }
-.container      { 
-  font-family:'Roboto';
-  width:600px; 
-  margin:30px auto 0; 
-  display:block; 
-  background:#FFF;
-  padding:10px 50px 50px;
-}
-h2       { 
-  text-align:center; 
-  margin-bottom:50px; 
-}
-h2 small { 
-  font-weight:normal; 
-  color:#888; 
-  display:block; 
-}
-.footer     { text-align:center; }
-.footer a  { color:#53B2C8; }
-
 /* form starting stylings ------------------------------- */
-.group            { 
+.group 			  { 
   position:relative; 
   margin-bottom:45px; 
-  width: 100%;
 }
-
-.column {
-  background-color: white;
-  color: black;
-  display: flex;
-  flex-wrap: wrap;
-}
-
-input               {
+input 				{
   font-size:18px;
   padding:10px 10px 10px 5px;
   display:block;
-  width: 20vw;
+  width:13vw;
   border:none;
   border-bottom:1px solid #757575;
 }
-input:focus         { outline:none; }
+input:focus 		{ outline:none; }
 
 /* LABEL ======================================= */
-label                {
+label 				 {
   color:#999; 
   font-size:18px;
   font-weight:normal;
@@ -266,15 +230,15 @@ label                {
 }
 
 /* active state */
-input:focus ~ label, input:valid ~ label        {
+input:focus ~ label, input:valid ~ label 		{
   top:-20px;
   font-size:14px;
   color:#5264AE;
 }
 
 /* BOTTOM BARS ================================= */
-.bar    { position:relative; display:block; width:20vw; }
-.bar:before, .bar:after     {
+.bar 	{ position:relative; display:block; width:13vw; }
+.bar:before, .bar:after 	{
   content:'';
   height:2px; 
   width:0;
@@ -317,16 +281,16 @@ input:focus ~ .highlight {
 
 /* ANIMATIONS ================ */
 @-webkit-keyframes inputHighlighter {
-    from { background:#5264AE; }
-  to    { width:0; background:transparent; }
+	from { background:#5264AE; }
+  to 	{ width:0; background:transparent; }
 }
 @-moz-keyframes inputHighlighter {
-    from { background:#5264AE; }
-  to    { width:0; background:transparent; }
+	from { background:#5264AE; }
+  to 	{ width:0; background:transparent; }
 }
 @keyframes inputHighlighter {
-    from { background:#5264AE; }
-  to    { width:0; background:transparent; }
+	from { background:#5264AE; }
+  to 	{ width:0; background:transparent; }
 }
 
 /* FLOAT */
@@ -430,85 +394,4 @@ a.button {
   transition: all 0.2s ;
 }
 
-@media only screen and (max-width: 300px) {
-  .black-card {
-    width: 200px;
-  }
-  .black-box {
-    width: 150px;
-  }
-  .contentbox {
-    width: 150px;
-  }
-  .inputbox {
-    width: 100px;
-  }
-  .white-box {
-    width: 150px;
-  }
-  .register-button {
-    padding: 5px 10px;
-  }
-  .bar 	{ position: absolute; display:block; width:170px; }
-  .bar:before, .bar:after 	{
-    content:'';
-    height:2px; 
-    width:0;
-    bottom:1px; 
-    position:absolute;
-    background:#5264AE; 
-    transition:0.2s ease all; 
-    -moz-transition:0.2s ease all; 
-    -webkit-transition:0.2s ease all;
-  }
-  .bar:before {
-    left:50%;
-  }
-  .bar:after {
-    right:50%; 
-  }
-}
-@media only screen and (max-width: 200px) {
-  .black-card {
-    width: 120px;
-  }
-  .black-box {
-    width: 110px;
-  }
-  .inputbox {
-    width: 80px;
-  }
-  .contentbox {
-    width: 80px;
-  }
-  .inputbox {
-    width: 100px;
-  }
-  .white-box {
-    width: 80px;
-  }
-  .register-button {
-    padding: 3.3px 6.6px;
-  }
-
-}
-@media only screen and (max-width: 150px) {
-  .black-card {
-    width: 100px;
-  }
-  .black-box {
-    width: 100px;
-  }
-  .contentbox {
-    width: 50px;
-  }
-  .inputbox {
-    width: 70px;
-  }
-  .white-box {
-    width: 75px;
-  }
-  .register-button {
-    padding: 2.5px 5px;
-  }
-}
+/* python -m SimpleHTTPServer | Command for setting up localhost */
