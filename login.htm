@@ -15,7 +15,7 @@
     <li><a href="contact.htm">Contact</a></li>
 </ul>
 
-<body>
+<body onresize="onResize()">
     <div class="spacer-title">
     </div>
     <div class="spacer-main">
@@ -50,16 +50,19 @@
     <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-database.js"></script>
     <script src="auth.js"></script>
     <script>
-        var w = window.innerWidth;
-        if (w <= 300)
-        {
-            document.getElementById('emailText').innerText = "E..";
-            document.getElementById('passwordText').innerHTML = "P..";
-        }
-        else if (w > 300)
-        {
-            document.getElementById('emailText').innerText = "Email";
-            document.getElementById('passwordText').innerHTML = "Password";
+        var windowWidth;
+
+        function onResize() {
+            windowWidth = window.innerWidth;
+
+            if (windowWidth <= 350) {
+                document.getElementById('emailText').innerText = "E..";
+                document.getElementById('passwordText').innerHTML = "P..";
+            }
+            else if (windowWidth > 350) {
+                document.getElementById('emailText').innerText = "Email";
+                document.getElementById('passwordText').innerHTML = "Password";
+            }
         }
     </script>
 </body>
