@@ -300,11 +300,12 @@ input:focus ~ .highlight {
   display: block;
   top: 0;
   left: 0;
-  width: 80px;
+  width: 17vw;
   height: 30px;
   border-radius: 5px;
   transition: all 0.2s ;
   background: rgb(69, 68, 119);
+  font-size: 1.7vw;
 }
 
 button:hover {
@@ -316,7 +317,7 @@ button {
   display: block;
   position: relative;
   float: left;
-  width: 80px;
+  width: 1vw;
   padding: 0;
   margin: 10px 20px 10px 0;
   font-weight: 600;
@@ -331,7 +332,7 @@ a.button {
   display: block;
   position: relative;
   float: left;
-  width: 80px;
+  width: 1vw;
   padding: 0;
   margin: 10px 20px 10px 0;
   font-weight: 600;
@@ -351,7 +352,10 @@ a {
   flex-wrap: wrap;
 }
 
-@media screen and (max-width: 992px) {
+@media only screen and (min-width: 1500px) {
+  .buttonMain {
+    font-size: 8px;
+  }
 }
 
 /* python -m SimpleHTTPServer | Command for setting up localhost */

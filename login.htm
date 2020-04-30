@@ -15,7 +15,7 @@
     <li><a href="contact.htm">Contact</a></li>
 </ul>
 
-<body onresize="onResize()" vlink="white" alink="white">
+<body onresize="onResize()" onload="onResize()"vlink="white" alink="white">
     <div class="spacer-title">
     </div>
     <div class="spacer-main">
@@ -36,6 +36,7 @@
             <div class="group">
                 <div class="column">
                     <button id="buttonLogin" class="buttonMain">Login</button>
+                    <br>
                     <button  class="buttonMain"><a href="register.htm">Register</a></button>
                 </div>
             </div>
@@ -51,7 +52,6 @@
     <script src="auth.js"></script>
     <script>
         var windowWidth;
-
         function onResize() {
             windowWidth = window.innerWidth;
 
