@@ -7,7 +7,7 @@ body {
   touch-action: manipulation;
   overflow-x: hidden;
   overflow-y: scroll;
-  position: relative
+  width: 100%;
 }
 
 p {
@@ -353,9 +353,9 @@ a {
   flex-wrap: wrap;
 }
 
-@media only screen and (min-width: 1500px) {
+@media only screen and (min-width: 850px) {
   .buttonMain {
-    font-size: 8px;
+    font-size: 10px;
   }
 }
 
