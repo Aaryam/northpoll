@@ -18,7 +18,7 @@
     <li style="float:right;" id="myProfile"><a href="profile.htm">My Profile</a></li>
 </ul>
 
-<body>
+<body onload="checkRun()">
     <div class="spacer-title">
     </div>
     <div class="spacer-main">
@@ -120,7 +120,17 @@
         }
 
         console.log("Start Count");
-        setTimeout(() => { enterPosts() }, 10000);
+
+        function checkRun() {
+            if (postVal >= 0) {
+                enterPosts();
+                initializeOptions('1', 0);
+                console.log('checked');
+            } else {
+                window.setTimeout(checkRun, 100);
+            }
+        }
+
         setTimeout(() => { initializeOptions('1', 0) }, 10000);
 
         function returnQ(id, element) {
