@@ -23,6 +23,7 @@ ul {
   position: fixed;
   top: 0;
   width: 100%;
+  z-index: 1;
 }
 
 button:focus {outline:0;}
@@ -196,7 +197,7 @@ h2 small {
 }
 
 input 				{
-  font-size:18px;
+  font-size:12px;
   padding:10px 10px 10px 5px;
   display:block;
   width:13vw;
