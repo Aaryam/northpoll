@@ -21,48 +21,46 @@
 <body onload="checkRun()">
     <div class="spacer-title">
     </div>
+    <hr color='#4C4B83'>
     <div class="spacer-main">
         <center>
-            <div class="black-box largeh">
-                <h3 style="color: white;" id="tester">
-                    Post Poll
-                </h3>
-                <textarea id="txtEmail" type="text" placeholder="Question" class="contentbox"></textarea>
-                <br>
-                <input id="op1" type="text" placeholder="Option 1" class="inputbox">
-                <input id="op2" type="text" placeholder="Option 2" class="inputbox">
-                <input id="op3" type="text" placeholder="Option 3" class="inputbox hide">
-                <input id="op4" type="text" placeholder="Option 4" class="inputbox hide">
-                <br>
-                <br>
-                <button id="buttonLogin" class="register-button hide">
-                    Login
-                </button>
-
-                <button id="buttonSignUp" class="register-button hide">
-                    Sign Up
-                </button>
-                <button id="buttonPost" class="register-button">
-                    Post
-                </button>
-                <button id="buttonAdd" class="register-button" onclick="AddMoreOps()">
-                    +
-                </button>
-                <button id="buttonAdd" class="register-button" onclick="RemoveMoreOps()">
-                    -
-                </button>
-            </div>
-            <center>
-                <div class="spacer-main">
-                    <div class="white-box hide" id="alertBox">
-                        <div id="piechart"></div>
-                        <button id="alertButtonClose" style="float: right; color: rgb(240, 240, 240);"
-                            class="register-button" onclick="closeWindow('alertBox')">&#x2716;</button>
-                    </div>
-                </div>
-            </center>
+            <h1 style="color: #4C4B83;">Post Poll</h1>
         </center>
+        <div class="container">
+            <div class="group">
+                <input type="text" required maxlength="60" id="txtEmail">
+                <span class="highlight"></span>
+                <span class="bar"></span>
+                <label>Question</label>
+            </div>
+            <div class="group">
+                <input type="text" required maxlength="20" id="op1">
+                <span class="highlight"></span>
+                <span class="bar"></span>
+                <label>Option 1</label>
+            </div>
+            <div class="group">
+                <input type="text" required maxlength="20" id="op2">
+                <span class="highlight"></span>
+                <span class="bar"></span>
+                <label>Option 2</label>
+            </div>
+            <div class="group">
+                <input type="text" required maxlength="20" id="op3">
+                <span class="highlight"></span>
+                <span class="bar"></span>
+                <label>Option 3</label>
+            </div>
+            <div class="group">
+                <input type="text" required maxlength="20" id="op4">
+                <span class="highlight"></span>
+                <span class="bar"></span>
+                <label>Option 4</label>
+            </div>
+            <button id="buttonPost" class="buttonMain">Post</button>
+        </div>
     </div>
+    <hr color='#4C4B83'>
 
     <!--Javascript reference-->
 
@@ -112,7 +110,7 @@
         function enterPosts() {
             if (postVal != NaN) {
                 for (let index = 0; index <= postVal; index++) {
-                    createCard(index);
+                    createCard(postVal - index);
                     console.log(postVal)
                 }
                 console.log('now');
@@ -426,52 +424,6 @@
             document.getElementById(id).classList.remove('hide');
         }
 
-    </script>
-
-    <script>
-        //Make the DIV element draggagle:
-        dragElement(document.getElementById("alertBox"));
-
-        function dragElement(elmnt) {
-            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-            if (document.getElementById(elmnt.id + "header")) {
-                /* if present, the header is where you move the DIV from:*/
-                document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
-            } else {
-                /* otherwise, move the DIV from anywhere inside the DIV:*/
-                elmnt.onmousedown = dragMouseDown;
-            }
-
-            function dragMouseDown(e) {
-                e = e || window.event;
-                e.preventDefault();
-                // get the mouse cursor position at startup:
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                document.onmouseup = closeDragElement;
-                // call a function whenever the cursor moves:
-                document.onmousemove = elementDrag;
-            }
-
-            function elementDrag(e) {
-                e = e || window.event;
-                e.preventDefault();
-                // calculate the new cursor position:
-                pos1 = pos3 - e.clientX;
-                pos2 = pos4 - e.clientY;
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                // set the element's new position:
-                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-            }
-
-            function closeDragElement() {
-                /* stop moving when mouse button is released:*/
-                document.onmouseup = null;
-                document.onmousemove = null;
-            }
-        }
     </script>
 
 </body>

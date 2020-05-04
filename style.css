@@ -58,6 +58,7 @@ li a:hover:not(.active) {
 .spacer-main {
   margin: 30%;
   margin-top: 100px;
+  margin-bottom: 100px;
 }
 
 .inputbox {
@@ -199,7 +200,7 @@ h2 small {
 
 input 				{
   font-size:12px;
-  padding:10px 10px 10px 5px;
+  padding:10px 5px 10px 5px;
   display:block;
   width:13vw;
   border:none;
@@ -285,6 +286,8 @@ input:focus ~ .highlight {
   to 	{ width:0; background:transparent; }
 }
 
+
+
 .buttonMain {
   background: none;
   box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.5);
@@ -349,6 +352,21 @@ a {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
+}
+
+.postBox {
+  border-radius: 25px;
+  background: white;
+  padding: 20px; 
+  width: 50vw;
+  height: 450px;
+  border-style: solid;
+  border-color: rgb(76, 75, 131);
+}
+
+
+.radiobutton {
+  align-content: center;
 }
 
 @media only screen and (min-width: 850px) {

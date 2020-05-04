@@ -280,19 +280,10 @@ Basic Configuration for Firebase
     // and refreshes the textbox into "" after that.
     if (buttonPost) {
         buttonPost.addEventListener('click', e => {
-            if (txtEmail.textLength <= 60 && op1.value.length <= 20 && op2.value.length <= 20 && op3.value.length <= 20 && op4.value.length <= 20) {
-                textLengthGood();
-            }
-            else if (txtEmail.textLength > 60 || op1.value.length > 20 || op2.value.length > 20 || op3.value.length > 20 || op4.value.length > 20) {
-                textLengthBad();
-            }
+            console.log("post");
+            textLengthGood();
 
             function textLengthGood() {
-                txtEmail.placeholder = "Content";
-                op1.placeholder = "Option 1";
-                op2.placeholder = "Option 2";
-                op3.placeholder = "Option 3";
-                op4.placeholder = "Option 4";
                 addPost(txtEmail.value);
                 txtEmail.value = "";
                 op1.value = "";
