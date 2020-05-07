@@ -117,6 +117,11 @@
             }
         }
 
+        const buttonPost = document.getElementById('buttonPost');
+        buttonPost.addEventListener('click', e => {
+            createCard(postVal);
+        });
+
         console.log("Start Count");
 
         function checkRun() {
@@ -144,9 +149,6 @@
             var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op1/' + 'text');
             testRef.on('value', function (snapshot) {
                 element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
-                element.addEventListener("click", function (event) {
-                    optionButtonClick('1', id)
-                });
                 element.addEventListener("dblclick", function (event) {
                     showGraph();
                 });
@@ -160,9 +162,6 @@
             testRef.on('value', function (snapshot) {
                 let x =
                     element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
-                element.addEventListener("click", function (event) {
-                    optionButtonClick('2', id)
-                });
                 element.addEventListener("dblclick", function (event) {
                     showGraph();
                 });
@@ -175,9 +174,6 @@
             var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op3/' + 'text');
             testRef.on('value', function (snapshot) {
                 element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
-                element.addEventListener("click", function (event) {
-                    optionButtonClick('3', id)
-                });
                 element.addEventListener("dblclick", function (event) {
                     showGraph();
                 });
@@ -190,9 +186,6 @@
             var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op4/' + 'text');
             testRef.on('value', function (snapshot) {
                 element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
-                element.addEventListener("click", function (event) {
-                    optionButtonClick('4', id)
-                });
                 element.addEventListener("dblclick", function (event) {
                     showGraph();
                 });
@@ -216,40 +209,119 @@
             spacer.setAttribute('class', 'spacer-main');
             var center = document.createElement("center");
             spacer.appendChild(center);
-            var black_box = document.createElement('div');
-            center.appendChild(black_box);
-            black_box.setAttribute('class', 'black-card');
-            black_box.setAttribute('style', 'color: white;');
-            var header = document.createElement('h3');
+            var postbox = document.createElement('div');
+            center.appendChild(postbox);
+            postbox.setAttribute('class', 'postBox');
+            postbox.setAttribute('style', 'text-align: center;');
+            var header = document.createElement('h1');
             returnQ(cardId, header);
-            header.setAttribute('style', 'color: white;')
-            black_box.appendChild(header);
+            header.setAttribute('class', 'optionTitle')
+            postbox.appendChild(header);
+            var div = document.createElement('div');
+            div.setAttribute('style', 'text-align: center;')
+            postbox.appendChild(div);
             var br1 = document.createElement('br');
-            black_box.appendChild(br1);
+            postbox.appendChild(br1);
+
+            var opbtn1 = document.createElement('button');
+            opbtn1.setAttribute('class', 'buttonMain rounded');
+            opbtn1.setAttribute('style', 'display: inline-block;');
+            opbtn1.setAttribute('id', '1');
+            opbtn1.onclick = function () {changeColor(opbtn1) };
+            div.appendChild(opbtn1);
+            var p1 = document.createElement('p');
+            p1.setAttribute('class', 'optionText');
+            returnOp1(cardId, p1);
+            div.appendChild(p1);
             var br2 = document.createElement('br');
-            black_box.appendChild(br2);
-            var option1 = document.createElement('button');
-            returnOp1(cardId, option1)
-            black_box.appendChild(option1);
-            option1.setAttribute('class', 'register-button')
-            var option2 = document.createElement('button');
-            returnOp2(cardId, option2)
-            black_box.appendChild(option2);
-            option2.setAttribute('class', 'register-button')
-            var option3 = document.createElement('button');
-            returnOp3(cardId, option3)
-            black_box.appendChild(option3);
-            option3.setAttribute('class', 'register-button')
-            var option4 = document.createElement('button');
-            returnOp4(cardId, option4)
-            black_box.appendChild(option4);
-            option4.setAttribute('class', 'register-button');
-            var byText = document.createElement('p');
-            returnBy(cardId, byText);
-            black_box.appendChild(byText);
-            byText.setAttribute('style', 'text-align: center;');
+            div.appendChild(br2);
+
+            var opbtn2 = document.createElement('button');
+            opbtn2.setAttribute('class', 'buttonMain rounded');
+            opbtn2.setAttribute('style', 'display: inline-block;');
+            opbtn2.setAttribute('id', '2');
+            opbtn2.onclick = function () {changeColor(opbtn2) };
+            div.appendChild(opbtn2);
+            var p2 = document.createElement('p');
+            p2.setAttribute('class', 'optionText');
+            returnOp2(cardId, p2);
+            div.appendChild(p2);
+            var br3 = document.createElement('br');
+            div.appendChild(br3);
+
+            var opbtn3 = document.createElement('button');
+            opbtn3.setAttribute('class', 'buttonMain rounded');
+            opbtn3.setAttribute('style', 'display: inline-block;');
+            opbtn3.setAttribute('id', '3');
+            opbtn3.onclick = function () {changeColor(opbtn3) };
+            div.appendChild(opbtn3);
+            var p3 = document.createElement('p');
+            p3.setAttribute('class', 'optionText');
+            returnOp2(cardId, p3);
+            div.appendChild(p3);
+            var br4 = document.createElement('br');
+            div.appendChild(br4);
+
+            var opbtn4 = document.createElement('button');
+            opbtn4.setAttribute('class', 'buttonMain rounded');
+            opbtn4.setAttribute('style', 'display: inline-block;');
+            opbtn4.setAttribute('id', '4');
+            opbtn4.onclick = function () {changeColor(opbtn4) };
+            div.appendChild(opbtn4);
+            var p4 = document.createElement('p');
+            p4.setAttribute('class', 'optionText');
+            returnOp2(cardId, p4);
+            div.appendChild(p4);
+            var br5 = document.createElement('br');
+            div.appendChild(br5);
+
+            var submitBtn = document.createElement('button');
+            submitBtn.setAttribute('class', 'buttonMain submitPoll');
+            submitBtn.innerHTML = "Submit";
+            submitBtn.onclick = function () {submitPoll(submitBtn, cardId) };
+            div.appendChild(submitBtn);
+
             document.body.appendChild(spacer);
         }
+
+        function submitPoll (x, id)
+        {
+            var parent = x.parentNode;
+            var children = parent.children;
+            for (let index = 0; index < children.length; index++) {
+                var element = children[index];
+                if (children[index].classList.contains('opColour'))
+                {
+                    if (children[index].id == '1')
+                    {
+                        optionButtonClick('1', id)
+                    }
+                    else if (children[index].id == '2')
+                    {
+                        optionButtonClick('2', id)
+                    }
+                    else if (children[index].id == '3')
+                    {
+                        optionButtonClick('3', id)
+                    }
+                    if (children[index].id == '4')
+                    {
+                        optionButtonClick('4', id)
+                    }
+                }
+            }
+        }
+
+        function changeColor(x) {
+        x.classList.add("opColour");
+        main = x.parentNode;
+        parent = main.children;
+        for (let index = 0; index < parent.length; index++) {
+            if (parent[index] != x && parent[index].classList.contains('opColour')) {
+                parent[index].classList.remove("opColour");
+            }
+        }
+    }
 
         function drawChart(op1, op2, op3, op4) {
             var data = google.visualization.arrayToDataTable([

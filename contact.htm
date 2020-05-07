@@ -25,23 +25,53 @@
 </div>
 
 <body>
-    <p style="text-align: center;">You can contact us at <a href="mailto:patnaikaaryan@gmail.com">this</a> email</p>
+    <p style="text-align: center;">You can contact us at <a href="mailto:patnaikaaryan@gmail.com"><u>this</u></a> email
+    </p>
 
     <center>
-        <div class="postBox">
-            <h1 style="color: #4C4B83;">Title</h1>
-            <div class="radiobutton">
-                <input type="radio" name="radio">
-                <p style="color: black;">Option 1</p>
-                <input type="radio" name="radio">
-                <p style="color: black; margin-top: -20px;">Option 1</p>
-                <input type="radio" name="radio">
-                <p style="color: black; margin-top: -20px;">Option 1</p>
-                <input type="radio" name="radio">
-                <p style="color: black; margin-top: -20px;">Option 1</p>
+        <div class="postBox" style="text-align: center;">
+            <h1 class="optionTitle">Title</h1>
+            <div style="text-align: center;">
+                <br>
+                <button id="optionButton" class="buttonMain rounded" style="display: inline-block;"
+                    onclick="changeColor(this)"></button>
+                <p class="optionText">Option 1</p>
+                <br>
+                <button id="optionButton" class="buttonMain rounded" style="display: inline-block;"
+                    onclick="changeColor(this)"></button>
+                <p class="optionText">Option 1</p>
+                <br>
+                <button id="optionButton" class="buttonMain rounded" style="display: inline-block;"
+                    onclick="changeColor(this)"></button>
+                <p class="optionText">Option 1</p>
+                <br>
+                <button id="optionButton" class="buttonMain rounded" style="display: inline-block;"
+                    onclick="changeColor(this)"></button>
+                <p class="optionText">Option 1</p>
             </div>
+            <br>
+            <button class="buttonMain submitPoll">
+                    Submit
+                </button>
         </div>
-    </center>
 </body>
+<script>
+
+    function changeColor(x) {
+        x.classList.add("opColour");
+        main = x.parentNode;
+        parent = main.children;
+        for (let index = 0; index < parent.length; index++) {
+            if (parent[index] != x && parent[index].classList.contains('opColour')) {
+                parent[index].classList.remove("opColour");
+            }
+        }
+    }
+
+    function submitAns(x) {
+        main = x.parentNode;
+        main.style="background-color: "
+    }
+</script>
 
 </html>

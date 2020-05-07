@@ -364,14 +364,76 @@ a {
   border-color: rgb(76, 75, 131);
 }
 
+input[type="button"] {
+  display: block;
+  position: relative;
+  float: left;
+  width: 1vw;
+  padding: 0;
+  margin: 10px 20px 10px 0;
+  font-weight: 600;
+  text-align: center;
+  line-height: 30px;
+  color: #FFF;
+  border-radius: 100px;
+  transition: all 0.2s ;
+}
 
-.radiobutton {
-  align-content: center;
+.rounded {
+  border-radius: 100px;
+  width: 2vw;
+  height: 2vw;
+}
+
+.submitPoll {
+  width: 10vw;
+  float: right;
+}
+
+.opColour {
+  background-color: rgb(165, 163, 255);
+}
+.opColour:hover {
+  background-color: rgb(181, 180, 255);
+}
+.opColour:active {
+  background-color: rgb(181, 180, 255);
+}
+
+.optionText {
+  color: #4C4B83; 
+  display: inline-block;
+  font-size: 3vw;
+}
+
+.optionTitle {
+  color: #4C4B83; 
+  font-size: 5vw
 }
 
 @media only screen and (min-width: 850px) {
   .buttonMain {
     font-size: 10px;
+  }
+  .rounded {
+    width: 20px;
+    height: 20px;
+  }
+  .optionTitle {
+    font-size: 50px;
+  }
+  .optionText {
+    font-size: 16px;
+  }
+}
+
+@media only screen and (max-width: 200px) {
+  .rounded {
+    width: 10px;
+    height: 10px;
+  }
+  .optionText {
+    font-size: 8px;
   }
 }
 
