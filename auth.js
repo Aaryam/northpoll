@@ -281,7 +281,10 @@ Basic Configuration for Firebase
     if (buttonPost) {
         buttonPost.addEventListener('click', e => {
             console.log("post");
-            textLengthGood();
+            if (txtEmail.length > 0 && op1.value.length > 0 && op2.value.length > 0 && op3.value.length > 0 && op4.value.length > 0 )
+            {
+                textLengthGood();
+            }
 
             function textLengthGood() {
                 addPost(txtEmail.value);
@@ -290,19 +293,6 @@ Basic Configuration for Firebase
                 op2.value = "";
                 op3.value = "";
                 op4.value = "";
-            }
-
-            function textLengthBad() {
-                txtEmail.value = "";
-                op1.value = "";
-                op2.value = "";
-                op3.value = "";
-                op4.value = "";
-                txtEmail.placeholder = "The character limit is: 60";
-                op1.placeholder = "The character limit is: 20";
-                op2.placeholder = "The character limit is: 20";
-                op3.placeholder = "The character limit is: 20";
-                op4.placeholder = "The character limit is: 20";
             }
         });
     }

@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" type="text/css" href="style.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
-    <title>NorthPoll | Post</title>
+    <title>NorthPoll | Home</title>
     <link rel="shortcut icon" href="icon/favicon.ico" type="image/x-icon">
 </head>
 <ul>
@@ -23,6 +23,11 @@
     </div>
     <hr color='#4C4B83'>
     <div class="spacer-main">
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <p>Some text in the Modal..</p>
+            </div>
+        </div>
         <center>
             <h1 style="color: #4C4B83;">Post Poll</h1>
         </center>
@@ -71,6 +76,7 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="auth.js"></script>
     <script>
+
         let postVal;
         function AddMoreOps() {
             buttonName = 'op3'
@@ -204,6 +210,14 @@
             });
         }
 
+        var modal = document.getElementById("myModal");
+
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
         function createCard(cardId) {
             var spacer = document.createElement('div');
             spacer.setAttribute('class', 'spacer-main');
@@ -227,7 +241,7 @@
             opbtn1.setAttribute('class', 'buttonMain rounded');
             opbtn1.setAttribute('style', 'display: inline-block;');
             opbtn1.setAttribute('id', '1');
-            opbtn1.onclick = function () {changeColor(opbtn1) };
+            opbtn1.onclick = function () { changeColor(opbtn1) };
             div.appendChild(opbtn1);
             var p1 = document.createElement('p');
             p1.setAttribute('class', 'optionText');
@@ -240,7 +254,7 @@
             opbtn2.setAttribute('class', 'buttonMain rounded');
             opbtn2.setAttribute('style', 'display: inline-block;');
             opbtn2.setAttribute('id', '2');
-            opbtn2.onclick = function () {changeColor(opbtn2) };
+            opbtn2.onclick = function () { changeColor(opbtn2) };
             div.appendChild(opbtn2);
             var p2 = document.createElement('p');
             p2.setAttribute('class', 'optionText');
@@ -253,7 +267,7 @@
             opbtn3.setAttribute('class', 'buttonMain rounded');
             opbtn3.setAttribute('style', 'display: inline-block;');
             opbtn3.setAttribute('id', '3');
-            opbtn3.onclick = function () {changeColor(opbtn3) };
+            opbtn3.onclick = function () { changeColor(opbtn3) };
             div.appendChild(opbtn3);
             var p3 = document.createElement('p');
             p3.setAttribute('class', 'optionText');
@@ -266,7 +280,7 @@
             opbtn4.setAttribute('class', 'buttonMain rounded');
             opbtn4.setAttribute('style', 'display: inline-block;');
             opbtn4.setAttribute('id', '4');
-            opbtn4.onclick = function () {changeColor(opbtn4) };
+            opbtn4.onclick = function () { changeColor(opbtn4) };
             div.appendChild(opbtn4);
             var p4 = document.createElement('p');
             p4.setAttribute('class', 'optionText');
@@ -278,50 +292,51 @@
             var submitBtn = document.createElement('button');
             submitBtn.setAttribute('class', 'buttonMain submitPoll');
             submitBtn.innerHTML = "Submit";
-            submitBtn.onclick = function () {submitPoll(submitBtn, cardId) };
+            submitBtn.onclick = function () { submitPoll(submitBtn, cardId) };
             div.appendChild(submitBtn);
+
+            var resultsBtn = document.createElement('button');
+            resultsBtn.setAttribute('class', 'buttonMain sumbitPoll');
+            resultsBtn.setAttribute('style', 'width: 20%; float: right;');
+            resultsBtn.innerHTML = "Result";
+            resultsBtn.onclick = function () {modal.style.display = "block"};
+            div.appendChild(resultsBtn);
 
             document.body.appendChild(spacer);
         }
 
-        function submitPoll (x, id)
-        {
+        function submitPoll(x, id) {
             var parent = x.parentNode;
             var children = parent.children;
             for (let index = 0; index < children.length; index++) {
                 var element = children[index];
-                if (children[index].classList.contains('opColour'))
-                {
-                    if (children[index].id == '1')
-                    {
-                        optionButtonClick('1', id);
+                if (children[index].classList.contains('opColour')) {
+                    if (children[index].id == '1') {
+                        optionButtonClick('1', id, parent.parentNode.parentNode);
                     }
-                    else if (children[index].id == '2')
-                    {
-                        optionButtonClick('2', id);
+                    else if (children[index].id == '2') {
+                        optionButtonClick('2', id, parent.parentNode.parentNode);
                     }
-                    else if (children[index].id == '3')
-                    {
-                        optionButtonClick('3', id);
+                    else if (children[index].id == '3') {
+                        optionButtonClick('3', id, parent.parentNode.parentNode);
                     }
-                    if (children[index].id == '4')
-                    {
-                        optionButtonClick('4', id);
+                    if (children[index].id == '4') {
+                        optionButtonClick('4', id, parent.parentNode.parentNode);
                     }
                 }
             }
         }
 
         function changeColor(x) {
-        x.classList.add("opColour");
-        main = x.parentNode;
-        parent = main.children;
-        for (let index = 0; index < parent.length; index++) {
-            if (parent[index] != x && parent[index].classList.contains('opColour')) {
-                parent[index].classList.remove("opColour");
+            x.classList.add("opColour");
+            main = x.parentNode;
+            parent = main.children;
+            for (let index = 0; index < parent.length; index++) {
+                if (parent[index] != x && parent[index].classList.contains('opColour')) {
+                    parent[index].classList.remove("opColour");
+                }
             }
         }
-    }
 
         function drawChart(op1, op2, op3, op4) {
             var data = google.visualization.arrayToDataTable([
@@ -349,7 +364,7 @@
             openWindow('alertBox');
         }
 
-        function optionButtonClick(opNum, id) {
+        function optionButtonClick(opNum, id, element) {
             firebase.database().ref('totalPosts/' + id + '/' + 'op1/' + 'count/').once('value', function (snapshot) {
                 val1 = snapshot.val();
                 console.log(val1);
@@ -401,21 +416,29 @@
                     firebase.database().ref('totalPosts/' + id + '/' + 'op1/').update({
                         'count': val1 + 1
                     });
+                    element.setAttribute('style', 'opacity: 0');
+                    element.remove();
                 }
                 else if (opNum == '2') {
                     firebase.database().ref('totalPosts/' + id + '/' + 'op2/').update({
                         'count': val2 + 1
                     });
+                    element.setAttribute('style', 'opacity: 0');
+                    element.remove();
                 }
                 else if (opNum == '3') {
                     firebase.database().ref('totalPosts/' + id + '/' + 'op3/').update({
                         'count': val3 + 1
                     });
+                    element.setAttribute('style', 'opacity: 0');
+                    element.remove();
                 }
                 else if (opNum == '4' && val4 != NaN) {
                     firebase.database().ref('totalPosts/' + id + '/' + 'op4/').update({
                         'count': val4 + 1
                     });
+                    element.setAttribute('style', 'opacity: 0');
+                    element.remove();
                 }
             }
             else {

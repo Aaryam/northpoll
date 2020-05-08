@@ -51,9 +51,20 @@
             </div>
             <br>
             <button class="buttonMain submitPoll">
-                    Submit
-                </button>
+                Submit
+            </button>
+            <button class="buttonMain submitPoll" onclick='openModal()'>
+                Results
+            </button>
         </div>
+        <div class='spacer-main'>
+
+        </div>
+        <center>
+        <div class="postBox hide" style="position: fixed; text-align: center;" id="resultBox">
+            <p>Hi</p>
+        </div>
+        </center>
 </body>
 <script>
 
@@ -68,10 +79,18 @@
         }
     }
 
-    function submitAns(x) {
-        main = x.parentNode;
-        main.style="background-color: "
-    }
+    var modal = document.getElementById("myModal");
+
+    function openModal ()
+        {
+            modal.style.display = "block";
+        }
+
+        window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
 </script>
 
 </html>
