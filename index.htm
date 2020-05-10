@@ -117,8 +117,12 @@
         function enterPosts() {
             if (postVal != NaN) {
                 for (let index = 0; index <= postVal; index++) {
-                    createCard(postVal - index);
-                    console.log(postVal)
+                    var testRef = firebase.database().ref('totalPosts/' + index + "/" + 'usersClicked/');
+                    testRef.on('value', function (snapshot) {
+                        if (!snapshot.hasChild(localStorage.getItem('idCurrent') + '/')) {
+                            createCard(index);
+                        }
+                    });
                 }
                 console.log('now');
             }
@@ -150,50 +154,38 @@
             });
         }
 
-        function returnOp1(id, element, result) {
+        function returnOp1(id, element) {
             var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op1/' + 'text');
             testRef.on('value', function (snapshot) {
                 element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
-                result.addEventListener("click", function (event) {
-                    showGraph();
-                });
                 console.log(element);
                 console.log(element.innerText)
             });
         }
 
-        function returnOp2(id, element, result) {
+        function returnOp2(id, element) {
             var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op2/' + 'text');
             testRef.on('value', function (snapshot) {
                 let x =
                     element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
-                result.addEventListener("click", function (event) {
-                    showGraph();
-                });
                 console.log(element);
                 console.log(element.innerText)
             });
         }
 
-        function returnOp3(id, element, result) {
+        function returnOp3(id, element) {
             var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op3/' + 'text');
             testRef.on('value', function (snapshot) {
                 element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
-                result.addEventListener("click", function (event) {
-                    showGraph();
-                });
                 console.log(element);
                 console.log(element.innerText)
             });
         }
 
-        function returnOp4(id, element, result) {
+        function returnOp4(id, element) {
             var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op4/' + 'text');
             testRef.on('value', function (snapshot) {
                 element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
-                result.addEventListener("click", function (event) {
-                    showGraph();
-                });
                 console.log(element.onclick)
                 console.log(element);
                 console.log(element.innerText)
@@ -291,16 +283,10 @@
             submitBtn.onclick = function () { submitPoll(submitBtn, cardId) };
             div.appendChild(submitBtn);
 
-            var resultsBtn = document.createElement('button');
-            resultsBtn.setAttribute('class', 'buttonMain submitPoll');
-            resultsBtn.innerHTML = "Result";
-            resultsBtn.onclick = function () { modal.style.opacity = 1; modal.style.display = 'block'; };
-            div.appendChild(resultsBtn);
-
-            returnOp1(cardId, p1, resultsBtn);
-            returnOp2(cardId, p2, resultsBtn);
-            returnOp3(cardId, p3, resultsBtn);
-            returnOp4(cardId, p4, resultsBtn);
+            returnOp1(cardId, p1);
+            returnOp2(cardId, p2);
+            returnOp3(cardId, p3);
+            returnOp4(cardId, p4);
 
             document.body.appendChild(spacer);
         }
