@@ -422,11 +422,12 @@
                     console.log(parseInt(val1) + ' Val1 is')
 
                     firebase.database().ref('totalPosts/' + id + '/' + 'op1/').update({
-                        'count': val1 + 1
+                        'count': val1 + 1,
                     });
                     firebase.database().ref('userIDs/' + postUserID + '/' + id + '/' + 'op1/').update({
                         'count': val1 + 1
                     });
+                    alert('Submitted');
                 }
                 else if (opNum == '2') {
 
@@ -436,6 +437,7 @@
                     firebase.database().ref('userIDs/' + postUserID + '/' + id + '/' + 'op2/').update({
                         'count': val2 + 1
                     });
+                    alert('Submitted');
                 }
                 else if (opNum == '3') {
                     firebase.database().ref('totalPosts/' + id + '/' + 'op3/').update({
@@ -444,7 +446,7 @@
                     firebase.database().ref('userIDs/' + postUserID + '/' + id + '/' + 'op3/').update({
                         'count': val3 + 1
                     });
-                    console.log(postUserID + ' is the postUserID');
+                    alert('Submitted');
                 }
                 else if (opNum == '4' && val4 != NaN) {
                     firebase.database().ref('totalPosts/' + id + '/' + 'op4/').update({
@@ -453,6 +455,7 @@
                     firebase.database().ref('userIDs/' + postUserID + '/' + id + '/' + 'op4/').update({
                         'count': val4 + 1
                     });
+                    alert('Submitted');
                 }
             }
             else {
