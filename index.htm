@@ -25,7 +25,7 @@
     <div class="spacer-main">
         <div id="myModal" class="modal">
             <div class="modal-content">
-                <p>Some text in the Modal..</p>
+                <div id="piechart"></div>
             </div>
         </div>
         <center>
@@ -76,6 +76,7 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="auth.js"></script>
     <script>
+
 
         let postVal;
         function AddMoreOps() {
@@ -140,8 +141,6 @@
             }
         }
 
-        setTimeout(() => { initializeOptions('1', 0) }, 10000);
-
         function returnQ(id, element) {
             var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'content');
             testRef.on('value', function (snapshot) {
@@ -151,11 +150,11 @@
             });
         }
 
-        function returnOp1(id, element) {
+        function returnOp1(id, element, result) {
             var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op1/' + 'text');
             testRef.on('value', function (snapshot) {
                 element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
-                element.addEventListener("dblclick", function (event) {
+                result.addEventListener("click", function (event) {
                     showGraph();
                 });
                 console.log(element);
@@ -163,12 +162,12 @@
             });
         }
 
-        function returnOp2(id, element) {
+        function returnOp2(id, element, result) {
             var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op2/' + 'text');
             testRef.on('value', function (snapshot) {
                 let x =
                     element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
-                element.addEventListener("dblclick", function (event) {
+                result.addEventListener("click", function (event) {
                     showGraph();
                 });
                 console.log(element);
@@ -176,11 +175,11 @@
             });
         }
 
-        function returnOp3(id, element) {
+        function returnOp3(id, element, result) {
             var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op3/' + 'text');
             testRef.on('value', function (snapshot) {
                 element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
-                element.addEventListener("dblclick", function (event) {
+                result.addEventListener("click", function (event) {
                     showGraph();
                 });
                 console.log(element);
@@ -188,11 +187,11 @@
             });
         }
 
-        function returnOp4(id, element) {
+        function returnOp4(id, element, result) {
             var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op4/' + 'text');
             testRef.on('value', function (snapshot) {
                 element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
-                element.addEventListener("dblclick", function (event) {
+                result.addEventListener("click", function (event) {
                     showGraph();
                 });
                 console.log(element.onclick)
@@ -211,10 +210,10 @@
         }
 
         var modal = document.getElementById("myModal");
-
         window.onclick = function (event) {
             if (event.target == modal) {
-                modal.style.display = "none";
+                modal.style.display = 'none';
+                modal.style.opacity = 0;
             }
         }
 
@@ -245,7 +244,7 @@
             div.appendChild(opbtn1);
             var p1 = document.createElement('p');
             p1.setAttribute('class', 'optionText');
-            returnOp1(cardId, p1);
+
             div.appendChild(p1);
             var br2 = document.createElement('br');
             div.appendChild(br2);
@@ -258,7 +257,6 @@
             div.appendChild(opbtn2);
             var p2 = document.createElement('p');
             p2.setAttribute('class', 'optionText');
-            returnOp2(cardId, p2);
             div.appendChild(p2);
             var br3 = document.createElement('br');
             div.appendChild(br3);
@@ -271,7 +269,6 @@
             div.appendChild(opbtn3);
             var p3 = document.createElement('p');
             p3.setAttribute('class', 'optionText');
-            returnOp3(cardId, p3);
             div.appendChild(p3);
             var br4 = document.createElement('br');
             div.appendChild(br4);
@@ -284,7 +281,6 @@
             div.appendChild(opbtn4);
             var p4 = document.createElement('p');
             p4.setAttribute('class', 'optionText');
-            returnOp4(cardId, p4);
             div.appendChild(p4);
             var br5 = document.createElement('br');
             div.appendChild(br5);
@@ -296,15 +292,18 @@
             div.appendChild(submitBtn);
 
             var resultsBtn = document.createElement('button');
-            resultsBtn.setAttribute('class', 'buttonMain sumbitPoll');
-            resultsBtn.setAttribute('style', 'width: 20%; float: right;');
+            resultsBtn.setAttribute('class', 'buttonMain submitPoll');
             resultsBtn.innerHTML = "Result";
-            resultsBtn.onclick = function () {modal.style.display = "block"};
+            resultsBtn.onclick = function () { modal.style.opacity = 1; modal.style.display = 'block'; };
             div.appendChild(resultsBtn);
+
+            returnOp1(cardId, p1, resultsBtn);
+            returnOp2(cardId, p2, resultsBtn);
+            returnOp3(cardId, p3, resultsBtn);
+            returnOp4(cardId, p4, resultsBtn);
 
             document.body.appendChild(spacer);
         }
-
         function submitPoll(x, id) {
             var parent = x.parentNode;
             var children = parent.children;
@@ -325,6 +324,9 @@
                     }
                 }
             }
+
+            
+            console.log(val1);
         }
 
         function changeColor(x) {
@@ -340,6 +342,21 @@
 
         function drawChart(op1, op2, op3, op4) {
             var data = google.visualization.arrayToDataTable([
+                ['Option', 'Count'],
+                ['Option 1', op1],
+                ['Option 2', op2],
+                ['Option 3', op3],
+                ['Option 4', op4],
+            ]);
+
+            // Optional; add a title and set the width and height of the chart
+            var options = { backgroundColor: 'transparent', 'title': 'Options', 'width': 400, 'height': 250 };
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+            chart.draw(data, options);
+        }
+
+        function drawChart2(op1, op2, op3, op4, el) {
+            var data = google.visualization.arrayToDataTable([
                 ['Task', 'Hours per Day'],
                 ['Option 1', op1],
                 ['Option 2', op2],
@@ -349,7 +366,7 @@
 
             // Optional; add a title and set the width and height of the chart
             var options = { backgroundColor: 'transparent', 'title': 'Options', 'width': 400, 'height': 250 };
-            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+            var chart = new google.visualization.PieChart(el);
             chart.draw(data, options);
         }
 
@@ -361,7 +378,6 @@
 
         function showGraph() {
             google.charts.setOnLoadCallback(drawChart(val1, val2, val3, val4));
-            openWindow('alertBox');
         }
 
         function optionButtonClick(opNum, id, element) {
@@ -410,35 +426,47 @@
                 val3 = parseInt(val3);
                 val4 = parseInt(val4);
 
+                let postUserID;
+                firebase.database().ref('totalPosts/' + id + '/' + 'id').on('value', function (snapshot) {
+                    postUserID = snapshot.val().slice(-1, 1);
+                    console.log(postUserID)
+                });
 
                 if (opNum == '1') {
                     console.log(parseInt(val1) + ' Val1 is')
+
                     firebase.database().ref('totalPosts/' + id + '/' + 'op1/').update({
                         'count': val1 + 1
                     });
-                    element.setAttribute('style', 'opacity: 0');
-                    element.remove();
+                    firebase.database().ref('userIDs/' + postUserID + '/' + id + '/' + 'op1/').update({
+                        'count': val1 + 1
+                    });
                 }
                 else if (opNum == '2') {
+
                     firebase.database().ref('totalPosts/' + id + '/' + 'op2/').update({
                         'count': val2 + 1
                     });
-                    element.setAttribute('style', 'opacity: 0');
-                    element.remove();
+                    firebase.database().ref('userIDs/' + postUserID + '/' + id + '/' + 'op2/').update({
+                        'count': val2 + 1
+                    });
                 }
                 else if (opNum == '3') {
                     firebase.database().ref('totalPosts/' + id + '/' + 'op3/').update({
                         'count': val3 + 1
                     });
-                    element.setAttribute('style', 'opacity: 0');
-                    element.remove();
+                    firebase.database().ref('userIDs/' + postUserID + '/' + id + '/' + 'op3/').update({
+                        'count': val3 + 1
+                    });
+                    console.log(postUserID + ' is the postUserID');
                 }
                 else if (opNum == '4' && val4 != NaN) {
                     firebase.database().ref('totalPosts/' + id + '/' + 'op4/').update({
                         'count': val4 + 1
                     });
-                    element.setAttribute('style', 'opacity: 0');
-                    element.remove();
+                    firebase.database().ref('userIDs/' + postUserID + '/' + id + '/' + 'op4/').update({
+                        'count': val4 + 1
+                    });
                 }
             }
             else {
@@ -510,13 +538,6 @@
                     'count': val4
                 });
             }
-        }
-
-        function closeWindow(id) {
-            document.getElementById(id).classList.add('hide');
-        }
-        function openWindow(id) {
-            document.getElementById(id).classList.remove('hide');
         }
 
     </script>

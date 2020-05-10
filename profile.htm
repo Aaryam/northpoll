@@ -18,22 +18,17 @@
     <li style="float:right;" id="myProfile"><a href="profile.htm">My Profile</a></li>
 </ul>
 
-<body>
+<body onload="checkRun()">
     <div class="spacer-title">
     </div>
     <div class="">
         <center>
-            <div class="black-box smallh smallw">
-                <h3 style="color: white;" id="emailName"></h3>
+            <h3 style="color: white;" id="emailName"></h3>
+        </center>
+
         </center>
         <div class="spacer-main">
-            <center>
-                <div class="white-box" id="alertBox">
-                    <div id="piechart"></div>
-                    <button id="alertButtonClose" style="float: right; color: rgb(240, 240, 240);"
-                        class="register-button" onclick="closeWindow('alertBox')">&#x2716;</button>
-                </div>
-            </center>
+            <div id='piechart'></div>
         </div>
     </div>
 
@@ -71,16 +66,20 @@
                     var testRef = firebase.database().ref('userIDs/' + localStorage.getItem('idCurrent') + "/");
                     testRef.on('value', function (snapshot) {
                         if (snapshot.hasChild(index + '/')) {
-                            createCard(index, localStorage.getItem("emailCurrent"));
+                            createCard(index);
                         }
                     });
                 }
-                console.log('10 seconds ended');
             }
         }
 
-        console.log("Start Count");
-        setTimeout(() => { enterPosts() }, 10000);
+        function checkRun() {
+            if (postVal >= 0) {
+                enterPosts();
+            } else {
+                window.setTimeout(checkRun, 100);
+            }
+        }
 
         function returnQ(id, element) {
             var testRef = firebase.database().ref('userIDs/' + localStorage.getItem('idCurrent') + '/' + id + '/' + 'content');
@@ -90,51 +89,70 @@
             });
         }
 
-        function returnOp1(id, element) {
-            var testRef = firebase.database().ref('userIDs/' + localStorage.getItem('idCurrent') + '/' + id + '/' + 'op1/' + 'text');
+        var value1 = 0;
+        var value2 = 0;
+        var value3 = 0;
+        var value4 = 0;
+
+        function returnOp1(id, element, element1) {
+            var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op1/' + 'count/');
             testRef.on('value', function (snapshot) {
-                element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
+                element.innerHTML = JSON.stringify(snapshot.val());
+                value1 = parseInt(JSON.stringify(snapshot.val()));
+                console.log(value1 + ' this is from parseint');
+            });
+            var secondRef = firebase.database().ref('totalPosts/' + id + '/' + 'op1/' + 'text/')
+            secondRef.on('value', function (snapshot) {
+                element1.innerHTML = JSON.stringify(snapshot.val()).slice(1, -1);
             });
             element.addEventListener("click", function (event) {
                 runbutton('1', id)
             });
+            console.log(value1 + ' this is from returnop1');
         }
 
-        function returnOp2(id, element) {
-            var testRef = firebase.database().ref('userIDs/' + localStorage.getItem('idCurrent') + '/' + id + '/' + 'op2/' + 'text');
+        function returnOp2(id, element, element1) {
+            var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op2/' + 'count/');
             testRef.on('value', function (snapshot) {
-                element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
+                element.innerHTML = JSON.stringify(snapshot.val());
+                value2 = parseInt(JSON.stringify(snapshot.val()));
+            });
+            var secondRef = firebase.database().ref('totalPosts/' + id + '/' + 'op2/' + 'text/')
+            secondRef.on('value', function (snapshot) {
+                element1.innerHTML = JSON.stringify(snapshot.val()).slice(1, -1);
             });
             element.addEventListener("click", function (event) {
                 runbutton('2', id)
             });
         }
 
-        function returnOp3(id, element) {
-            var testRef = firebase.database().ref('userIDs/' + localStorage.getItem('idCurrent') + '/' + id + '/' + 'op3/' + 'text');
+        function returnOp3(id, element, element1) {
+            var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op3/' + 'count/')
             testRef.on('value', function (snapshot) {
-                element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
+                element.innerHTML = JSON.stringify(snapshot.val());
+                value3 = parseInt(JSON.stringify(snapshot.val()));
+            });
+            var secondRef = firebase.database().ref('totalPosts/' + id + '/' + 'op3/' + 'text/')
+            secondRef.on('value', function (snapshot) {
+                element1.innerHTML = JSON.stringify(snapshot.val()).slice(1, -1);
             });
             element.addEventListener("click", function (event) {
                 runbutton('3', id)
             });
         }
 
-        function returnOp4(id, element) {
-            var testRef = firebase.database().ref('userIDs/' + localStorage.getItem('idCurrent') + '/' + id + '/' + 'op4/' + 'text');
+        function returnOp4(id, element, element1) {
+            var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op4/' + 'count/')
             testRef.on('value', function (snapshot) {
-                element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
+                element.innerHTML = JSON.stringify(snapshot.val());
+                value4 = parseInt(JSON.stringify(snapshot.val()));
+            });
+            var secondRef = firebase.database().ref('totalPosts/' + id + '/' + 'op4/' + 'text/')
+            secondRef.on('value', function (snapshot) {
+                element1.innerHTML = JSON.stringify(snapshot.val()).slice(1, -1);
             });
             element.addEventListener("click", function (event) {
                 runbutton('4', id)
-            });
-        }
-
-        function returnBy(id, element) {
-            var testRef = firebase.database().ref('userIDs/' + localStorage.getItem('idCurrent') + '/' + id + '/' + 'email');
-            testRef.on('value', function (snapshot) {
-                element.innerText = 'By: ' + JSON.stringify(snapshot.val()).slice(1, -1);
-                console.log(element.innerHTML);
             });
         }
 
@@ -143,57 +161,113 @@
             spacer.setAttribute('class', 'spacer-main');
             var center = document.createElement("center");
             spacer.appendChild(center);
-            var black_box = document.createElement('div');
-            center.appendChild(black_box);
-            black_box.setAttribute('class', 'white-box nonfixed');
-            black_box.setAttribute('style', 'color: white;');
-            var header = document.createElement('h3');
-            returnQ(cardId, header)
-            header.setAttribute('style', 'color: white;')
-            black_box.appendChild(header);
+            var postbox = document.createElement('div');
+            center.appendChild(postbox);
+            postbox.setAttribute('class', 'postBox');
+            postbox.setAttribute('style', 'text-align: center;');
+            var header = document.createElement('h1');
+            returnQ(cardId, header);
+            header.setAttribute('class', 'optionTitle')
+            postbox.appendChild(header);
+            var div = document.createElement('div');
+            div.setAttribute('style', 'text-align: center;')
+            postbox.appendChild(div);
             var br1 = document.createElement('br');
-            black_box.appendChild(br1);
+            postbox.appendChild(br1);
+
+            var opbtn1 = document.createElement('button');
+            opbtn1.setAttribute('class', 'buttonMain rounded');
+            opbtn1.setAttribute('style', 'display: inline-block;');
+            opbtn1.setAttribute('id', '1');
+            opbtn1.onclick = function () { changeColor(opbtn1) };
+            div.appendChild(opbtn1);
+            var p1 = document.createElement('p');
+            p1.setAttribute('class', 'optionText');
+
+            div.appendChild(p1);
             var br2 = document.createElement('br');
-            black_box.appendChild(br2);
-            var option1 = document.createElement('button');
-            returnOp1(cardId, option1)
-            black_box.appendChild(option1);
-            option1.setAttribute('class', 'register-button')
-            var option2 = document.createElement('button');
-            returnOp2(cardId, option2)
-            black_box.appendChild(option2);
-            option2.setAttribute('class', 'register-button')
-            var option3 = document.createElement('button');
-            returnOp3(cardId, option3)
-            black_box.appendChild(option3);
-            option3.setAttribute('class', 'register-button')
-            var option4 = document.createElement('button');
-            returnOp4(cardId, option4)
-            black_box.appendChild(option4);
-            option4.setAttribute('class', 'register-button');
-            var byText = document.createElement('p');
-            returnBy(cardId, byText);
-            black_box.appendChild(byText);
-            var graphButton = document.createElement('button');
-            graphButton.setAttribute('class', 'register-button');
-            graphButton.setAttribute('id', 'openGraph');
-            black_box.appendChild(byText);
-            byText.setAttribute('style', 'text-align: center;');
+            div.appendChild(br2);
+
+            var hp1 = document.createElement('p');
+            var hp2 = document.createElement('p');
+            var hp3 = document.createElement('p');
+            var hp4 = document.createElement('p');
+
+            hp1.setAttribute('class', 'hide');
+            hp2.setAttribute('class', 'hide');
+            hp3.setAttribute('class', 'hide');
+            hp4.setAttribute('class', 'hide');
+
+            var opbtn2 = document.createElement('button');
+            opbtn2.setAttribute('class', 'buttonMain rounded');
+            opbtn2.setAttribute('style', 'display: inline-block;');
+            opbtn2.setAttribute('id', '2');
+            opbtn2.onclick = function () { changeColor(opbtn2) };
+            div.appendChild(opbtn2);
+            var p2 = document.createElement('p');
+            p2.setAttribute('class', 'optionText');
+            div.appendChild(p2);
+            var br3 = document.createElement('br');
+            div.appendChild(br3);
+
+            var opbtn3 = document.createElement('button');
+            opbtn3.setAttribute('class', 'buttonMain rounded');
+            opbtn3.setAttribute('style', 'display: inline-block;');
+            opbtn3.setAttribute('id', '3');
+            opbtn3.onclick = function () { changeColor(opbtn3) };
+            div.appendChild(opbtn3);
+            var p3 = document.createElement('p');
+            p3.setAttribute('class', 'optionText');
+            div.appendChild(p3);
+            var br4 = document.createElement('br');
+            div.appendChild(br4);
+            var opbtn4 = document.createElement('button');
+            opbtn4.setAttribute('class', 'buttonMain rounded');
+            opbtn4.setAttribute('style', 'display: inline-block;');
+            opbtn4.setAttribute('id', '4');
+            opbtn4.onclick = function () { changeColor(opbtn4) };
+            div.appendChild(opbtn4);
+            var p4 = document.createElement('p');
+            p4.setAttribute('class', 'optionText');
+            div.appendChild(p4);
+            var br5 = document.createElement('br');
+            div.appendChild(br5);
+
+            var submitBtn = document.createElement('button');
+            submitBtn.setAttribute('class', 'buttonMain submitPoll');
+            submitBtn.innerHTML = "Submit";
+            submitBtn.onclick = function () { submitPoll(submitBtn, cardId) };
+            div.appendChild(submitBtn);
+
+            var resultsBtn = document.createElement('button');
+            resultsBtn.setAttribute('class', 'buttonMain submitPoll');
+            resultsBtn.innerHTML = "Result";
+            resultsBtn.onclick = function () { modal.style.opacity = 1; modal.style.display = 'block'; };
+            div.appendChild(resultsBtn);
+
+            returnOp1(cardId, hp1, p1);
+            returnOp2(cardId, hp2, p2);
+            returnOp3(cardId, hp3, p3);
+            returnOp4(cardId, hp4, p4);
+
+            resultsBtn.onclick = function () { result(hp1, hp2, hp3, hp4, postbox, p1, p2, p3, p4, header) };
             document.body.appendChild(spacer);
+
+
         }
 
-        function drawChart(op1, op2, op3, op4) {
+        function drawChart(op1, op2, op3, op4, el, title, name1, name2, name3, name4) {
             var data = google.visualization.arrayToDataTable([
-                ['Task', 'Hours per Day'],
-                ['Option 1', op1],
-                ['Option 2', op2],
-                ['Option 3', op3],
-                ['Optiom 4', op4],
+                ['-', title],
+                [name1, op1],
+                [name2, op2],
+                [name3, op3],
+                [name4, op4],
             ]);
 
             // Optional; add a title and set the width and height of the chart
-            var options = { backgroundColor: 'transparent', 'title': 'Options', 'width': 400, 'height': 250 };
-            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+            var options = { backgroundColor: 'transparent', 'title': title, 'width': '90%', 'height': '90%', 'left': '50%','right': '50%',};
+            var chart = new google.visualization.PieChart(el);
             chart.draw(data, options);
         }
         function runbutton(opButton, id) {
@@ -213,6 +287,10 @@
             google.charts.setOnLoadCallback(drawChart(val1, val2, val3, val4));
         }
 
+        function result(one, two, three, four, element, name1, name2, name3, name4, title) {
+            drawChart(Number(one.textContent), Number(two.textContent), Number(three.textContent), Number(four.textContent), 
+            element, title.textContent, name1.textContent, name2.textContent, name3.textContent, name4.textContent);
+        }
     </script>
 </body>
 

@@ -281,10 +281,7 @@ Basic Configuration for Firebase
     if (buttonPost) {
         buttonPost.addEventListener('click', e => {
             console.log("post");
-            if (txtEmail.length > 0 && op1.value.length > 0 && op2.value.length > 0 && op3.value.length > 0 && op4.value.length > 0 )
-            {
-                textLengthGood();
-            }
+            textLengthGood();
 
             function textLengthGood() {
                 addPost(txtEmail.value);
