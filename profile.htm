@@ -23,7 +23,7 @@
     </div>
     <div class="">
         <center>
-            <h3 style="color: white;" id="emailName"></h3>
+            <h3 style="color: #4C4B83;" id="emailName"></h3>
         </center>
 
         </center>
@@ -41,6 +41,9 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="auth.js"></script>
     <script>
+
+        document.getElementById('emailName').textContent = 'Profile: ' + localStorage.getItem('emailCurrent');
+
         let val1;
         let val2;
         let val3;
