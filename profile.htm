@@ -23,7 +23,7 @@
     </div>
     <div class="">
         <center>
-            <h3 style="color: #4C4B83;" id="emailName"></h3>
+            <h3 style="color: #4C4B83;" class="optionText" id="emailName"></h3>
         </center>
 
         </center>
@@ -56,8 +56,6 @@
         firebase.database().ref('users/' + 'totalCount/').on('value', function (snapshot) {
             postVal = snapshot.val();
         });
-
-        document.getElementById("emailName").innerHTML = localStorage.getItem('emailCurrent');
 
         postVal = JSON.stringify(postVal);
         postVal = parseInt(postVal);
