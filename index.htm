@@ -117,10 +117,11 @@
         function enterPosts() {
             if (postVal != NaN) {
                 for (let index = 0; index <= postVal; index++) {
-                    var testRef = firebase.database().ref('totalPosts/' + index + "/" + 'usersClicked/');
+                    let temp = postVal - index;
+                    var testRef = firebase.database().ref('totalPosts/' + temp + "/" + 'usersClicked/');
                     testRef.on('value', function (snapshot) {
                         if (!snapshot.hasChild(localStorage.getItem('idCurrent') + '/')) {
-                            createCard(postVal - index);
+                            createCard(temp);
                         }
                     });
                 }
