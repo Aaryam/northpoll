@@ -108,6 +108,10 @@
         if (localStorage.getItem('changeShow') == null)
         {
             localStorage.setItem('changeShow', 'qPolls')
+            changeShowBtn.onclick = function () {
+                localStorage.setItem('changeShow', 'ansPolls');
+                location.reload();
+            }
         }
 
         function checkRun() {
