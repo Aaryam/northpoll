@@ -219,12 +219,6 @@
             var br1 = document.createElement('br');
             postbox.appendChild(br1);
 
-            var opbtn1 = document.createElement('button');
-            opbtn1.setAttribute('class', 'buttonMain rounded');
-            opbtn1.setAttribute('style', 'display: inline-block;');
-            opbtn1.setAttribute('id', '1');
-            opbtn1.onclick = function () { changeColor(opbtn1) };
-            div.appendChild(opbtn1);
             var p1 = document.createElement('p');
             p1.setAttribute('class', 'optionText');
 
@@ -241,47 +235,24 @@
             hp2.setAttribute('class', 'hide');
             hp3.setAttribute('class', 'hide');
             hp4.setAttribute('class', 'hide');
-
-            var opbtn2 = document.createElement('button');
-            opbtn2.setAttribute('class', 'buttonMain rounded');
-            opbtn2.setAttribute('style', 'display: inline-block;');
-            opbtn2.setAttribute('id', '2');
-            opbtn2.onclick = function () { changeColor(opbtn2) };
-            div.appendChild(opbtn2);
+            
             var p2 = document.createElement('p');
             p2.setAttribute('class', 'optionText');
             div.appendChild(p2);
             var br3 = document.createElement('br');
             div.appendChild(br3);
 
-            var opbtn3 = document.createElement('button');
-            opbtn3.setAttribute('class', 'buttonMain rounded');
-            opbtn3.setAttribute('style', 'display: inline-block;');
-            opbtn3.setAttribute('id', '3');
-            opbtn3.onclick = function () { changeColor(opbtn3) };
-            div.appendChild(opbtn3);
             var p3 = document.createElement('p');
             p3.setAttribute('class', 'optionText');
             div.appendChild(p3);
             var br4 = document.createElement('br');
             div.appendChild(br4);
-            var opbtn4 = document.createElement('button');
-            opbtn4.setAttribute('class', 'buttonMain rounded');
-            opbtn4.setAttribute('style', 'display: inline-block;');
-            opbtn4.setAttribute('id', '4');
-            opbtn4.onclick = function () { changeColor(opbtn4) };
-            div.appendChild(opbtn4);
+
             var p4 = document.createElement('p');
             p4.setAttribute('class', 'optionText');
             div.appendChild(p4);
             var br5 = document.createElement('br');
             div.appendChild(br5);
-
-            var submitBtn = document.createElement('button');
-            submitBtn.setAttribute('class', 'buttonMain submitPoll');
-            submitBtn.innerHTML = "Submit";
-            submitBtn.onclick = function () { submitPoll(submitBtn, cardId) };
-            div.appendChild(submitBtn);
 
             var resultsBtn = document.createElement('button');
             resultsBtn.setAttribute('class', 'buttonMain submitPoll');
