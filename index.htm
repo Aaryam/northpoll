@@ -120,7 +120,7 @@
                     var testRef = firebase.database().ref('totalPosts/' + index + "/" + 'usersClicked/');
                     testRef.on('value', function (snapshot) {
                         if (!snapshot.hasChild(localStorage.getItem('idCurrent') + '/')) {
-                            createCard(index);
+                            createCard(postVal - index);
                         }
                     });
                 }

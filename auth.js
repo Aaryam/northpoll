@@ -102,9 +102,8 @@ Basic Configuration for Firebase
     emailUser = null;
     firebase.auth().onAuthStateChanged(firebaseUser => {
         if (firebaseUser) {
-            console.log(firebaseUser);
             let windowVar = window.location.pathname + window.location.search;
-            if (windowVar.includes("login.htm")) {
+            if (windowVar.includes("login.htm") || windowVar.includes("register.htm")) {
                 window.location.href = "index.htm";
 
                 localStorage.setItem("emailCurrent", firebaseUser.email);
@@ -122,10 +121,6 @@ Basic Configuration for Firebase
                 window.location.href = "login.htm";
                 localStorage.setItem("emailCurrent", null);
                 localStorage.setItem("idCurrent", null);
-            }
-            else if (windowVar.includes("register.htm"))
-            {
-                
             }
         }
     })

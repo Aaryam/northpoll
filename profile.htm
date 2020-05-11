@@ -21,11 +21,9 @@
 <body onload="checkRun()">
     <div class="spacer-title">
     </div>
-    <div class="">
+    <div class="spacer-main">
         <center>
-            <h3 style="color: #4C4B83;" class="optionText" id="emailName"></h3>
-        </center>
-
+            <h3 style="color: #4C4B83;" class="optionText" id="emailName"></h3><button class="buttonMain" id="changeShow">Show answered polls</button>
         </center>
         <div class="spacer-main">
             <div id='piechart'></div>
@@ -44,6 +42,25 @@
 
         document.getElementById('emailName').textContent = 'Profile: ' + localStorage.getItem('emailCurrent');
 
+        var changeShowBtn = document.getElementById('changeShow');
+
+        if (localStorage.getItem('changeShow') == "qPolls")
+        {
+            changeShowBtn.innerHTML = "Show answered polls";
+            changeShowBtn.onclick = function () {
+                localStorage.setItem('changeShow', 'ansPolls');
+                location.reload();
+            }
+        }
+        else if (localStorage.getItem('changeShow') == "ansPolls")
+        {
+            changeShowBtn.innerHTML = "Show poll questions";
+            changeShowBtn.onclick = function () {
+                localStorage.setItem('changeShow', 'qPolls');
+                location.reload();
+            }
+        }
+
         let val1;
         let val2;
         let val3;
@@ -61,29 +78,55 @@
         postVal = parseInt(postVal);
         console.log(postVal);
 
-        function enterPosts() {
+        
+        function enterPostsID() {
             if (postVal != NaN) {
                 for (let index = 0; index <= postVal; index++) {
                     var testRef = firebase.database().ref('userIDs/' + localStorage.getItem('idCurrent') + "/");
                     testRef.on('value', function (snapshot) {
-                        if (snapshot.hasChild(index + '/')) {
-                            createCard(index);
+                        if (snapshot.hasChild(postVal - index + '/')) {
+                            createCard(postVal - index);
                         }
                     });
                 }
             }
         }
 
+        function enterPostsDone() {
+            if (postVal != NaN) {
+                for (let index = 0; index <= postVal; index++) {
+                    var testRef = firebase.database().ref('totalPosts/' + (postVal - index) + "/" + 'usersClicked/');
+                    testRef.on('value', function (snapshot) {
+                        if (snapshot.hasChild(localStorage.getItem('idCurrent') + '/')) {
+                            createCard(postVal - index);
+                        }
+                    });
+                }
+            }
+        }
+
+        if (localStorage.getItem('changeShow') == null)
+        {
+            localStorage.setItem('changeShow', 'qPolls')
+        }
+
         function checkRun() {
             if (postVal >= 0) {
-                enterPosts();
+                if (localStorage.getItem('changeShow') == 'qPolls')
+                {
+                    enterPostsID();
+                }
+                else if (localStorage.getItem('changeShow') == 'ansPolls')
+                {
+                    enterPostsDone();
+                }
             } else {
                 window.setTimeout(checkRun, 100);
             }
         }
 
         function returnQ(id, element) {
-            var testRef = firebase.database().ref('userIDs/' + localStorage.getItem('idCurrent') + '/' + id + '/' + 'content');
+            var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'content');
             testRef.on('value', function (snapshot) {
                 element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
                 console.log(element.innerText);

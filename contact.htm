@@ -61,9 +61,9 @@
 
         </div>
         <center>
-        <div class="postBox hide" style="position: fixed; text-align: center;" id="resultBox">
-            <p>Hi</p>
-        </div>
+            <div class="postBox hide" style="position: fixed; text-align: center;" id="resultBox">
+                <p>Hi</p>
+            </div>
         </center>
 </body>
 <script>
@@ -81,16 +81,15 @@
 
     var modal = document.getElementById("myModal");
 
-    function openModal ()
-        {
-            modal.style.opacity = "block";
-        }
+    function openModal() {
+        modal.style.opacity = "block";
+    }
 
-        window.onclick = function(event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
-}
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
 </script>
 
 </html>
