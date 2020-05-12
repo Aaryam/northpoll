@@ -20,25 +20,34 @@
     </div>
     <div class="spacer-main">
         <div class="container">
-                <h1 style="color: rgb(59, 58, 102);">Register</h1>
-                <div class="group">
-                    <input type="text" required id="txtEmail">
-                    <span class="highlight"></span>
-                    <span class="bar"></span>
-                    <label>Email</label>
-                </div>
-                <div class="group">
-                    <input type="password" required id="txtPassword">
-                    <span class="highlight"></span>
-                    <span class="bar"></span>
-                    <label>Password</label>
-                </div>
-                <div class="group">
-                    <button id="buttonSignUp" class="buttonMain">Register</button>
-                </div>
+            <h1 style="color: rgb(59, 58, 102);">Register</h1>
+            <div class="group">
+                <input type="text" required id="txtEmail">
+                <span class="highlight"></span>
+                <span class="bar"></span>
+                <label>Email</label>
+            </div>
+            <div class="group">
+                <input type="password" required id="txtPassword">
+                <span class="highlight"></span>
+                <span class="bar"></span>
+                <label>Password</label>
+            </div>
+            <div class="group">
+                <button id="buttonSignUp" class="buttonMain">Register</button>
+            </div>
         </div>
     </div>
-
+    <div class="spacer-main">
+        <div class="group" style="margin-left: 50px">
+                <button class="buttonMain" id="tag-tech">Technology</button>
+                <button class="buttonMain" id="tag-sc">Science</button>
+                <button class="buttonMain" id="tag-cu">Culture</button>
+                <button class="buttonMain" id="tag-life">Lifestyle</button>
+                <button class="buttonMain" id="tag-sport">Sports</button>
+                <button class="buttonMain" id="tag-entert">Entertainment</button>
+        </div>
+    </div>
     <!--Javascript reference-->
 
     <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-app.js"></script>
@@ -46,6 +55,59 @@
     <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-analytics.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-database.js"></script>
     <script src="auth.js"></script>
+
+    <script>
+        document.getElementById('tag-tech').addEventListener('click', e => {
+            document.getElementById('tag-tech').id = "tag-tech-true";
+            document.getElementById('tag-tech-true').style.background = 'rgb(86, 85, 156)';
+        });
+        document.getElementById('tag-sc').addEventListener('click', e => {
+            document.getElementById('tag-sc').id = "tag-sc-true";
+            document.getElementById('tag-sc-true').style.background = 'rgb(86, 85, 156)';
+        });
+        document.getElementById('tag-cu').addEventListener('click', e => {
+            document.getElementById('tag-cu').id = "tag-cu-true";
+            document.getElementById('tag-cu-true').style.background = 'rgb(86, 85, 156)';
+        });
+        document.getElementById('tag-life').addEventListener('click', e => {
+            document.getElementById('tag-life').id = "tag-life-true";
+            document.getElementById('tag-life-true').style.background = 'rgb(86, 85, 156)';
+        });
+        document.getElementById('tag-sport').addEventListener('click', e => {
+            document.getElementById('tag-sport').id = "tag-sport-true";
+            document.getElementById('tag-sport-true').style.background = 'rgb(86, 85, 156)';
+        });
+        document.getElementById('tag-entert').addEventListener('click', e => {
+            document.getElementById('tag-entert').id = "tag-entert-true";
+            document.getElementById('tag-entert-true').style.background = 'rgb(86, 85, 156)';
+        });
+        
+
+        document.getElementById('tag-tech-true').addEventListener('click', e => {
+            document.getElementById('tag-tech-true').id = "tag-tech";
+            document.getElementById('tag-tech').style.background = 'rgb(86, 85, 156)';
+        });
+        document.getElementById('tag-sc').addEventListener('click', e => {
+            document.getElementById('tag-sc').id = "tag-sc-true";
+            document.getElementById('tag-sc-true').style.background = 'rgb(86, 85, 156)';
+        });
+        document.getElementById('tag-cu').addEventListener('click', e => {
+            document.getElementById('tag-cu').id = "tag-cu-true";
+            document.getElementById('tag-cu-true').style.background = 'rgb(86, 85, 156)';
+        });
+        document.getElementById('tag-life').addEventListener('click', e => {
+            document.getElementById('tag-life').id = "tag-life-true";
+            document.getElementById('tag-life-true').style.background = 'rgb(86, 85, 156)';
+        });
+        document.getElementById('tag-sport').addEventListener('click', e => {
+            document.getElementById('tag-sport').id = "tag-sport-true";
+            document.getElementById('tag-sport-true').style.background = 'rgb(86, 85, 156)';
+        });
+        document.getElementById('tag-entert').addEventListener('click', e => {
+            document.getElementById('tag-entert').id = "tag-entert-true";
+            document.getElementById('tag-entert-true').style.background = 'rgb(86, 85, 156)';
+        });
+    </script>
 </body>
 
 </html>

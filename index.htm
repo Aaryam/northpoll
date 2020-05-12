@@ -398,10 +398,6 @@
             });
 
             if (notclicked) {
-                val1 = 0;
-                val2 = 0;
-                val3 = 0;
-                val4 = 0;
                 console.log('not clicked');
                 firebase.database().ref('totalPosts/' + id + '/' + 'usersClicked/' + localStorage.getItem('idCurrent') + '/').set({
                     in: 'true',
