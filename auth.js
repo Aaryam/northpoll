@@ -41,6 +41,8 @@ Basic Configuration for Firebase
     const op3 = document.getElementById('op3');
     const op4 = document.getElementById('op4');
 
+    const selectTag = document.getElementById('selectTag');
+
 
     // authentication,  email link
 
@@ -84,6 +86,33 @@ Basic Configuration for Firebase
             const email = txtEmail.value;
             const pass = txtPassword.value;
             const auth = firebase.auth();
+
+            // get tags from DOM
+
+            const tech_tag = document.getElementById('tag-tech');
+            const sc_tag = document.getElementById('tag-sc');
+            const cu_tag = document.getElementById('tag-cu');
+            const life_tag = document.getElementById('tag-life');
+            const sport_tag = document.getElementById('tag-sport');
+            const entert_tag = document.getElementById('tag-entert');
+
+            // booleans for checking if the tag elements are a specific color. if so return true
+            // this checks if the tags are checked or not. if checked, return true, if not return false
+
+            var isTech = tech_tag.style.background == 'rgb(86, 85, 156)';
+            var isSc = sc_tag.style.background == 'rgb(86, 85, 156)';
+            var isCu = cu_tag.style.background == 'rgb(86, 85, 156)';
+            var isLife = life_tag.style.background == 'rgb(86, 85, 156)';
+            var isSport = sport_tag.style.background == 'rgb(86, 85, 156)';
+            var isEntert = entert_tag.style.background == 'rgb(86, 85, 156)';
+
+            localStorage.setItem('isTech', isTech);
+            localStorage.setItem('isSc', isSc);
+            localStorage.setItem('isCu', isCu);
+            localStorage.setItem('isLife', isLife);
+            localStorage.setItem('isSport', isSport);
+            localStorage.setItem('isEntert', isEntert);
+
             // Sign In
             const promise = auth.createUserWithEmailAndPassword(email, pass);
             promise.catch(e => console.log(e.message))
@@ -109,12 +138,11 @@ Basic Configuration for Firebase
                 localStorage.setItem("emailCurrent", firebaseUser.email);
                 localStorage.setItem("idCurrent", firebaseUser.uid);
             }
-            else if (windowVar.includes("profile.htm")) {
-                console.log("Profile Page");
+            else if (windowVar.includes("profile.htm") || windowVar.includes("polls.htm")) {
+                // something
             }
         }
         else {
-            console.log("User not signed in");
             let windowVar = window.location.pathname + window.location.search;
             if (!windowVar.includes("login.htm") && !windowVar.includes("register.htm")) {
                 window.location.reload();
@@ -177,7 +205,6 @@ Basic Configuration for Firebase
             userCountRef.set({
                 userCount: 0,
             });
-            console.log("You have no posts :(");
         }
 
         let date = new Date();
@@ -189,6 +216,7 @@ Basic Configuration for Firebase
             op2: op2.value,
             op3: op3.value,
             op4: op4.value,
+            tag: selectTag.value,
         });
 
         firebase.database().ref('totalPosts/' + postVal).set({
@@ -200,6 +228,7 @@ Basic Configuration for Firebase
             op2: op2.value,
             op3: op3.value,
             op4: op4.value,
+            tag: selectTag.value,
         });
         firebase.database().ref('userIDs/' + localStorage.getItem('idCurrent') + '/' + postVal).set({
             email: localStorage.getItem("emailCurrent"),
@@ -210,6 +239,7 @@ Basic Configuration for Firebase
             op2: op2.value,
             op3: op3.value,
             op4: op4.value,
+            tag: selectTag.value,
         });
 
         // options
@@ -275,9 +305,7 @@ Basic Configuration for Firebase
     // and refreshes the textbox into "" after that.
     if (buttonPost) {
         buttonPost.addEventListener('click', e => {
-            console.log("post");
             textLengthGood();
-
             function textLengthGood() {
                 addPost(txtEmail.value);
                 txtEmail.value = "";

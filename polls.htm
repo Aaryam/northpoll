@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="icon/ico.ico" type="image/x-icon">
+    <title>NorthPoll | Profile</title>
+</head>
+<ul>
+    <li><a href="index.htm">Home</a></li>
+    <li><a href="contact.htm">Contact</a></li>
+    <li style="float:right;" id="buttonLogout"><a href="#logging-out">Log Out</a></li>
+    <li style="float:right;"><a href="profile.htm">My Profile</a></li>
+</ul>
+
+<body onload="checkRun()">
+    <div class="spacer-title">
+    </div>
+    <div class="spacer-main">
+        <center>
+            <h3 style="color: #4C4B83;" class="optionText" id="emailName"></h3><button class="buttonMain" id="changeShow">Show answered polls</button>
+        </center>
+        <div class="spacer-main">
+            <div id='piechart'></div>
+        </div>
+    </div>
+
+    <!--Javascript reference-->
+
+    <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-database.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="auth.js"></script>
+    <script>
+
+        document.getElementById('emailName').textContent = 'Profile: ' + localStorage.getItem('emailCurrent');
+
+        var changeShowBtn = document.getElementById('changeShow');
+
+        if (localStorage.getItem('changeShow') == "qPolls")
+        {
+            changeShowBtn.innerHTML = "Show answered polls";
+            changeShowBtn.onclick = function () {
+                localStorage.setItem('changeShow', 'ansPolls');
+                location.reload();
+            }
+        }
+        else if (localStorage.getItem('changeShow') == "ansPolls")
+        {
+            changeShowBtn.innerHTML = "Show poll questions";
+            changeShowBtn.onclick = function () {
+                localStorage.setItem('changeShow', 'qPolls');
+                location.reload();
+            }
+        }
+
+        let val1;
+        let val2;
+        let val3;
+        let val4;
+
+        google.charts.load('current', { 'packages': ['corechart'] });
+        let postVal;
+        let isSameEmail;
+        let x2;
+        firebase.database().ref('users/' + 'totalCount/').on('value', function (snapshot) {
+            postVal = snapshot.val();
+        });
+
+        postVal = JSON.stringify(postVal);
+        postVal = parseInt(postVal);
+
+        
+        function enterPostsID() {
+            if (postVal != NaN) {
+                for (let index = 0; index <= postVal; index++) {
+                    var testRef = firebase.database().ref('userIDs/' + localStorage.getItem('idCurrent') + "/");
+                    testRef.on('value', function (snapshot) {
+                        if (snapshot.hasChild(postVal - index + '/')) {
+                            createCard(postVal - index);
+                        }
+                    });
+                }
+            }
+        }
+
+        function enterPostsDone() {
+            if (postVal != NaN) {
+                for (let index = 0; index <= postVal; index++) {
+                    var testRef = firebase.database().ref('totalPosts/' + (postVal - index) + "/" + 'usersClicked/');
+                    testRef.on('value', function (snapshot) {
+                        if (snapshot.hasChild(localStorage.getItem('idCurrent') + '/')) {
+                            createCard(postVal - index);
+                        }
+                    });
+                }
+            }
+        }
+
+        if (localStorage.getItem('changeShow') == null)
+        {
+            localStorage.setItem('changeShow', 'qPolls')
+            changeShowBtn.onclick = function () {
+                localStorage.setItem('changeShow', 'ansPolls');
+                location.reload();
+            }
+        }
+
+        function checkRun() {
+            if (postVal >= 0) {
+                if (localStorage.getItem('changeShow') == 'qPolls')
+                {
+                    enterPostsID();
+                }
+                else if (localStorage.getItem('changeShow') == 'ansPolls')
+                {
+                    enterPostsDone();
+                }
+            } else {
+                window.setTimeout(checkRun, 100);
+            }
+        }
+
+        function returnQ(id, element) {
+            var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'content');
+            testRef.on('value', function (snapshot) {
+                element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
+            });
+        }
+
+        var value1 = 0;
+        var value2 = 0;
+        var value3 = 0;
+        var value4 = 0;
+
+        function returnOp1(id, element, element1) {
+            var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op1/' + 'count/');
+            testRef.on('value', function (snapshot) {
+                element.innerHTML = JSON.stringify(snapshot.val());
+                value1 = parseInt(JSON.stringify(snapshot.val()));
+            });
+            var secondRef = firebase.database().ref('totalPosts/' + id + '/' + 'op1/' + 'text/')
+            secondRef.on('value', function (snapshot) {
+                element1.innerHTML = JSON.stringify(snapshot.val()).slice(1, -1);
+            });
+            element.addEventListener("click", function (event) {
+                runbutton('1', id)
+            });
+        }
+
+        function returnOp2(id, element, element1) {
+            var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op2/' + 'count/');
+            testRef.on('value', function (snapshot) {
+                element.innerHTML = JSON.stringify(snapshot.val());
+                value2 = parseInt(JSON.stringify(snapshot.val()));
+            });
+            var secondRef = firebase.database().ref('totalPosts/' + id + '/' + 'op2/' + 'text/')
+            secondRef.on('value', function (snapshot) {
+                element1.innerHTML = JSON.stringify(snapshot.val()).slice(1, -1);
+            });
+            element.addEventListener("click", function (event) {
+                runbutton('2', id)
+            });
+        }
+
+        function returnOp3(id, element, element1) {
+            var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op3/' + 'count/')
+            testRef.on('value', function (snapshot) {
+                element.innerHTML = JSON.stringify(snapshot.val());
+                value3 = parseInt(JSON.stringify(snapshot.val()));
+            });
+            var secondRef = firebase.database().ref('totalPosts/' + id + '/' + 'op3/' + 'text/')
+            secondRef.on('value', function (snapshot) {
+                element1.innerHTML = JSON.stringify(snapshot.val()).slice(1, -1);
+            });
+            element.addEventListener("click", function (event) {
+                runbutton('3', id)
+            });
+        }
+
+        function returnOp4(id, element, element1) {
+            var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op4/' + 'count/')
+            testRef.on('value', function (snapshot) {
+                element.innerHTML = JSON.stringify(snapshot.val());
+                value4 = parseInt(JSON.stringify(snapshot.val()));
+            });
+            var secondRef = firebase.database().ref('totalPosts/' + id + '/' + 'op4/' + 'text/')
+            secondRef.on('value', function (snapshot) {
+                element1.innerHTML = JSON.stringify(snapshot.val()).slice(1, -1);
+            });
+            element.addEventListener("click", function (event) {
+                runbutton('4', id)
+            });
+        }
+
+        function createCard(cardId, mana) {
+            var spacer = document.createElement('div');
+            spacer.setAttribute('class', 'spacer-main');
+            var center = document.createElement("center");
+            spacer.appendChild(center);
+            var postbox = document.createElement('div');
+            center.appendChild(postbox);
+            postbox.setAttribute('class', 'postBox');
+            postbox.setAttribute('style', 'text-align: center;');
+            var header = document.createElement('h1');
+            returnQ(cardId, header);
+            header.setAttribute('class', 'optionTitle')
+            postbox.appendChild(header);
+            var div = document.createElement('div');
+            div.setAttribute('style', 'text-align: center;')
+            postbox.appendChild(div);
+            var br1 = document.createElement('br');
+            postbox.appendChild(br1);
+
+            var p1 = document.createElement('p');
+            p1.setAttribute('class', 'optionText');
+
+            div.appendChild(p1);
+            var br2 = document.createElement('br');
+            div.appendChild(br2);
+
+            var hp1 = document.createElement('p');
+            var hp2 = document.createElement('p');
+            var hp3 = document.createElement('p');
+            var hp4 = document.createElement('p');
+
+            hp1.setAttribute('class', 'hide');
+            hp2.setAttribute('class', 'hide');
+            hp3.setAttribute('class', 'hide');
+            hp4.setAttribute('class', 'hide');
+            
+            var p2 = document.createElement('p');
+            p2.setAttribute('class', 'optionText');
+            div.appendChild(p2);
+            var br3 = document.createElement('br');
+            div.appendChild(br3);
+
+            var p3 = document.createElement('p');
+            p3.setAttribute('class', 'optionText');
+            div.appendChild(p3);
+            var br4 = document.createElement('br');
+            div.appendChild(br4);
+
+            var p4 = document.createElement('p');
+            p4.setAttribute('class', 'optionText');
+            div.appendChild(p4);
+            var br5 = document.createElement('br');
+            div.appendChild(br5);
+
+            var resultsBtn = document.createElement('button');
+            resultsBtn.setAttribute('class', 'buttonMain submitPoll');
+            resultsBtn.innerHTML = "Result";
+            resultsBtn.onclick = function () { modal.style.opacity = 1; modal.style.display = 'block'; };
+            div.appendChild(resultsBtn);
+
+            returnOp1(cardId, hp1, p1);
+            returnOp2(cardId, hp2, p2);
+            returnOp3(cardId, hp3, p3);
+            returnOp4(cardId, hp4, p4);
+
+            resultsBtn.onclick = function () { result(hp1, hp2, hp3, hp4, postbox, p1, p2, p3, p4, header) };
+            document.body.appendChild(spacer);
+        }
+
+        function drawChart(op1, op2, op3, op4, el, title, name1, name2, name3, name4) {
+            var data = google.visualization.arrayToDataTable([
+                ['-', title],
+                [name1, op1],
+                [name2, op2],
+                [name3, op3],
+                [name4, op4],
+            ]);
+
+            // Optional; add a title and set the width and height of the chart
+            var options = { backgroundColor: 'transparent', 'title': title, 'width': '90%', 'height': '90%', 'left': '50%','right': '50%',};
+            var chart = new google.visualization.PieChart(el);
+            chart.draw(data, options);
+        }
+        function runbutton(opButton, id) {
+            firebase.database().ref('totalPosts/' + id + '/' + 'op1/' + 'count/').once('value', function (snapshot) {
+                val1 = snapshot.val();
+            });
+            firebase.database().ref('totalPosts/' + id + '/' + 'op2/' + 'count/').once('value', function (snapshot) {
+                val2 = snapshot.val();
+            });
+            firebase.database().ref('totalPosts/' + id + '/' + 'op3/' + 'count/').once('value', function (snapshot) {
+                val3 = snapshot.val();
+            });
+            firebase.database().ref('totalPosts/' + id + '/' + 'op4/' + 'count/').once('value', function (snapshot) {
+                val4 = snapshot.val();
+            });
+            google.charts.setOnLoadCallback(drawChart(val1, val2, val3, val4));
+        }
+
+        function result(one, two, three, four, element, name1, name2, name3, name4, title) {
+            drawChart(Number(one.textContent), Number(two.textContent), Number(three.textContent), Number(four.textContent), 
+            element, title.textContent, name1.textContent, name2.textContent, name3.textContent, name4.textContent);
+        }
+    </script>
+</body>
+
+</html>

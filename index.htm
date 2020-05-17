@@ -14,11 +14,12 @@
 <ul>
     <li><a href="index.htm">Home</a></li>
     <li><a href="contact.htm">Contact</a></li>
+    <li><a href="polls.htm">Polls</a></li>
     <li style="float:right;" id="buttonLogout"><a href="#logging-out">Log Out</a></li>
-    <li style="float:right;" id="myProfile"><a href="profile.htm">My Profile</a></li>
+    <li style="float:right;"><a href="profile.htm">My Profile</a></li>
 </ul>
 
-<body onload="checkRun()">
+<body onload="checkRun(); tagsRun();">
     <div class="spacer-title">
     </div>
     <hr color='#4C4B83'>
@@ -62,6 +63,17 @@
                 <span class="bar"></span>
                 <label>Option 4</label>
             </div>
+            <div class="select">
+                <select name="slct" id="selectTag">
+                    <option selected disabled>Choose a tag</option>
+                    <option value="Sports">Sports</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Technology">Technology</option>
+                    <option value="Culture">Culture</option>
+                    <option value="Lifestyle">Lifestyle</option>
+                    <option value="Science">Science</option>
+                </select>
+            </div>
             <button id="buttonPost" class="buttonMain">Post</button>
         </div>
     </div>
@@ -79,31 +91,7 @@
 
 
         let postVal;
-        function AddMoreOps() {
-            buttonName = 'op3'
-            add = document.getElementById(buttonName);
-            if (add.classList.contains('hide')) {
-                add.classList.remove('hide');
-            }
-            else if (!add.classList.contains('hide')) {
-                buttonName = 'op4';
-                add = document.getElementById(buttonName);
-                add.classList.remove('hide');
-            }
-        }
 
-        function RemoveMoreOps() {
-            buttonName = 'op4'
-            add = document.getElementById(buttonName);
-            if (!add.classList.contains('hide')) {
-                add.classList.add('hide');
-            }
-            else if (add.classList.contains('hide')) {
-                buttonName = 'op3';
-                add = document.getElementById(buttonName);
-                add.classList.add('hide');
-            }
-        }
         google.charts.load('current', { 'packages': ['corechart'] });
 
         firebase.database().ref('users/' + 'totalCount/').on('value', function (snapshot) {
@@ -112,7 +100,6 @@
 
         postVal = JSON.stringify(postVal);
         postVal = parseInt(postVal);
-        console.log(postVal);
 
         function enterPosts() {
             if (postVal != NaN) {
@@ -121,11 +108,33 @@
                     var testRef = firebase.database().ref('totalPosts/' + temp + "/" + 'usersClicked/');
                     testRef.on('value', function (snapshot) {
                         if (!snapshot.hasChild(localStorage.getItem('idCurrent') + '/')) {
-                            createCard(temp);
+
+                            var tagsReference = firebase.database().ref('users/' + localStorage.getItem('idCurrent') + '/' + 'tags/');
+                            var postReference = firebase.database().ref('totalPosts/' + temp + '/' + 'tag');
+
+                            var something;
+                            var finalVal;
+                            postReference.on('value', function (postRefSnap) {
+                                something = JSON.stringify(postRefSnap.val()).slice(1, -1).toLowerCase();
+
+                                tagsReference.on('value', function (tagsRefSnap) {
+                                    if (tagsRefSnap.hasChild(something)) {
+                                        var tagsReference1 = firebase.database().ref('users/' + localStorage.getItem('idCurrent') + '/' + 'tags/' + something);
+                                        tagsReference1.on('value', function(tagSnap1){
+                                            if (JSON.stringify(tagSnap1.val()).slice(1, -1) == 'true')
+                                            {
+                                                createCard(temp);
+                                            }
+                                        });
+                                    }
+                                    else if (!tagsRefSnap.hasChild(something)) {
+                                        // do something
+                                    }
+                                });
+                            });
                         }
                     });
                 }
-                console.log('now');
             }
         }
 
@@ -134,13 +143,47 @@
             createCard(postVal);
         });
 
-        console.log("Start Count");
+        function checkUserTags(id) {
+
+            return finalVal;
+        }
+
+        var tagsRef = firebase.database().ref('users/' + localStorage.getItem('idCurrent') + '/');
+
+        function tagsRun() {
+            if (tagsRef != null) {
+                setTags();
+            } else {
+                window.setTimeout(tagsRun, 100);
+            }
+        }
+
+        function setTags() {
+            tagsRef.on('value', function (snapshot) {
+                if (!snapshot.hasChild('tags/')) {
+                    firebase.database().ref('users/' + (localStorage.getItem("idCurrent") + '/') + 'tags/').set({
+                        technology: localStorage.getItem('isTech'),
+                        science: localStorage.getItem('isSc'),
+                        culture: localStorage.getItem('isCu'),
+                        life: localStorage.getItem('isLife'),
+                        sport: localStorage.getItem('isSport'),
+                        entertainment: localStorage.getItem('isEntert'),
+                    });
+                    localStorage.setItem('isTech', null);
+                    localStorage.setItem('isSc', null);
+                    localStorage.setItem('isCu', null);
+                    localStorage.setItem('isLife', null);
+                    localStorage.setItem('isSport', null);
+                    localStorage.setItem('isEntert', null);
+                }
+            });
+        }
+
 
         function checkRun() {
             if (postVal >= 0) {
                 enterPosts();
                 initializeOptions('1', 0);
-                console.log('checked');
             } else {
                 window.setTimeout(checkRun, 100);
             }
@@ -150,8 +193,6 @@
             var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'content');
             testRef.on('value', function (snapshot) {
                 element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
-                console.log(element);
-                console.log(element.innerText)
             });
         }
 
@@ -159,8 +200,6 @@
             var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op1/' + 'text');
             testRef.on('value', function (snapshot) {
                 element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
-                console.log(element);
-                console.log(element.innerText)
             });
         }
 
@@ -169,8 +208,6 @@
             testRef.on('value', function (snapshot) {
                 let x =
                     element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
-                console.log(element);
-                console.log(element.innerText)
             });
         }
 
@@ -178,8 +215,6 @@
             var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op3/' + 'text');
             testRef.on('value', function (snapshot) {
                 element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
-                console.log(element);
-                console.log(element.innerText)
             });
         }
 
@@ -187,9 +222,6 @@
             var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'op4/' + 'text');
             testRef.on('value', function (snapshot) {
                 element.innerText = JSON.stringify(snapshot.val()).slice(1, -1);
-                console.log(element.onclick)
-                console.log(element);
-                console.log(element.innerText)
             });
         }
 
@@ -197,8 +229,6 @@
             var testRef = firebase.database().ref('totalPosts/' + id + '/' + 'email');
             testRef.on('value', function (snapshot) {
                 element.innerText = 'By: ' + JSON.stringify(snapshot.val()).slice(1, -1);
-                console.log(element);
-                console.log(element.innerText)
             });
         }
 
@@ -311,9 +341,6 @@
                     }
                 }
             }
-
-            
-            console.log(val1);
         }
 
         function changeColor(x) {
@@ -369,8 +396,6 @@
 
         function optionButtonClick(opNum, id, element) {
             firebase.database().ref('totalPosts/' + id + '/' + 'op1/' + 'count/').once('value', function (snapshot) {
-                val1 = snapshot.val();
-                console.log(val1);
             });
             firebase.database().ref('totalPosts/' + id + '/' + 'op2/' + 'count/').once('value', function (snapshot) {
                 val2 = snapshot.val();
@@ -389,16 +414,13 @@
 
                 if (!snapshot.hasChild(localStorage.getItem('idCurrent'))) {
                     notclicked = true;
-                    console.log('snap')
                 }
                 else {
                     notclicked = false;
-                    console.log('snaps')
                 }
             });
 
             if (notclicked) {
-                console.log('not clicked');
                 firebase.database().ref('totalPosts/' + id + '/' + 'usersClicked/' + localStorage.getItem('idCurrent') + '/').set({
                     in: 'true',
                 });
@@ -412,11 +434,9 @@
                 let postUserID;
                 firebase.database().ref('totalPosts/' + id + '/' + 'id').on('value', function (snapshot) {
                     postUserID = snapshot.val().slice(-1, 1);
-                    console.log(postUserID)
                 });
 
                 if (opNum == '1') {
-                    console.log(parseInt(val1) + ' Val1 is')
 
                     firebase.database().ref('totalPosts/' + id + '/' + 'op1/').update({
                         'count': val1 + 1,
@@ -456,8 +476,6 @@
                 }
             }
             else {
-                console.log('clicked');
-                console.log(id);
             }
         }
 
@@ -470,14 +488,11 @@
 
                 if (!snapshot.hasChild(localStorage.getItem('idCurrent'))) {
                     notclicked = true;
-                    console.log('snap')
                 }
                 else {
                     notclicked = false;
-                    console.log('snaps')
                 }
 
-                console.log('ran notcliked');
 
             });
 
@@ -485,7 +500,6 @@
             // ('totalPosts/' + id + '/' + 'op1/' + 'count')
             firebase.database().ref('totalPosts/' + id + '/' + 'op1/' + 'count/').once('value', function (snapshot) {
                 val1 = snapshot.val();
-                console.log(val1);
             });
             firebase.database().ref('totalPosts/' + id + '/' + 'op2/' + 'count/').once('value', function (snapshot) {
                 val2 = snapshot.val();
@@ -504,7 +518,6 @@
 
 
             if (opNum == '1') {
-                console.log(parseInt(val1) + ' Val1 is')
                 firebase.database().ref('totalPosts/' + id + '/' + 'op1/').update({
                     'count': val1
                 });
