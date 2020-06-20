@@ -174,7 +174,6 @@
                             sports: isSport,
                             entertainment: isEntert,
                         });
-                        location.reload();
                     }
                     else if (!snapshot.hasChild('tags/')) {
                         firebase.database().ref('users/' + (localStorage.getItem("idCurrent") + '/') + 'tags/').on({
@@ -185,7 +184,6 @@
                             sports: isSport,
                             entertainment: isEntert,
                         });
-                        location.reload();
                     }
                 });
             }

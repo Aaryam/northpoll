@@ -85,7 +85,8 @@
     <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-analytics.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-database.js"></script>
-    <script data-ad-client="ca-pub-7862434728627853" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script data-ad-client="ca-pub-7862434728627853" async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="auth.js"></script>
     <script>
@@ -127,22 +128,10 @@
                                             }
                                         });
                                     }
-                                    else if (!tagsRefSnap.hasChild(something)) {
-                                        // do something
-                                    }
                                 });
                             });
                         }
                     });
-                    if (index == 0 && document.getElementsByClassName('postBox').length == 0)
-                    {
-                        let tempSpacer = document.createElement('div');
-                        tempSpacer.setAttribute('class', 'spacer-main');
-                        let tempP = document.createElement('p');
-                        tempP.innerText = 'No posts? Try adding some tags in the My Profile page!';
-                        tempSpacer.appendChild(tempP);
-                        document.body.appendChild(tempSpacer);
-                    }
                 }
             }
         }
