@@ -26,6 +26,15 @@
         <div class="container">
             <h1 style="color: rgb(59, 58, 102);">Settings</h1>
             <div class="group">
+                <input type="text" required id="txtUser">
+                <span class="highlight"></span>
+                <span class="bar"></span>
+                <label>Username</label>
+            </div>
+            <div class="group">
+                <button id="newUsername" class="buttonMain">→</button>
+            </div>
+            <div class="group">
                 <div class="column">
                     <button id="next1" class="buttonMain">Tags</button>
                     <br>
@@ -59,6 +68,16 @@
         <script src="auth.js"></script>
 
         <script>
+
+            document.getElementById('txtUser').innerHTML = localStorage.getItem('username');
+
+            document.getElementById('txtUser').onclick = function () {
+                firebase.database().ref('users/' + (localStorage.getItem("idCurrent") + '/')).update({
+                    username: document.getElementById('username').innerHTML,
+                });
+                localStorage.setItem('username', document.getElementById('txtUser').innerHTML);
+            }
+
             document.getElementById('next1').onclick = function () { showModal() };
             function showModal() {
                 document.getElementById('myModal').style.display = 'block';

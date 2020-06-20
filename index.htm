@@ -85,6 +85,7 @@
     <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-analytics.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-database.js"></script>
+    <script data-ad-client="ca-pub-7862434728627853" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="auth.js"></script>
     <script>
@@ -120,9 +121,8 @@
                                 tagsReference.on('value', function (tagsRefSnap) {
                                     if (tagsRefSnap.hasChild(something)) {
                                         var tagsReference1 = firebase.database().ref('users/' + localStorage.getItem('idCurrent') + '/' + 'tags/' + something);
-                                        tagsReference1.on('value', function(tagSnap1){
-                                            if (JSON.stringify(tagSnap1.val()).slice(1, -1) == 'true')
-                                            {
+                                        tagsReference1.on('value', function (tagSnap1) {
+                                            if (JSON.stringify(tagSnap1.val()).slice(1, -1) == 'true') {
                                                 createCard(temp);
                                             }
                                         });
@@ -135,6 +135,15 @@
                         }
                     });
                 }
+            }
+        }
+
+        function getUsername() {
+            if (localStorage.getItem('username') != null) {
+                var referenceToUser = firebase.database().ref('users/' + (localStorage.getItem("idCurrent") + '/'));
+                referenceToUser.on('value', function (snapshot) {
+                    localStorage.setItem('username', snapshot.val().slice(-1, 1));
+                });
             }
         }
 
@@ -161,6 +170,9 @@
         function setTags() {
             tagsRef.on('value', function (snapshot) {
                 if (!snapshot.hasChild('tags/')) {
+                    firebase.database().ref('users/' + (localStorage.getItem("idCurrent") + '/')).set({
+                        username: localStorage.getItem('username'),
+                    });
                     firebase.database().ref('users/' + (localStorage.getItem("idCurrent") + '/') + 'tags/').set({
                         technology: localStorage.getItem('isTech'),
                         science: localStorage.getItem('isSc'),
@@ -184,6 +196,7 @@
             if (postVal >= 0) {
                 enterPosts();
                 initializeOptions('1', 0);
+                getUsername();
             } else {
                 window.setTimeout(checkRun, 100);
             }

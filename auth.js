@@ -96,6 +96,10 @@ Basic Configuration for Firebase
             const sport_tag = document.getElementById('tag-sport');
             const entert_tag = document.getElementById('tag-entert');
 
+            // get username from DOM
+
+            const username = document.getElementById('txtUser');
+
             // booleans for checking if the tag elements are a specific color. if so return true
             // this checks if the tags are checked or not. if checked, return true, if not return false
 
@@ -106,12 +110,15 @@ Basic Configuration for Firebase
             var isSport = sport_tag.style.background == 'rgb(86, 85, 156)';
             var isEntert = entert_tag.style.background == 'rgb(86, 85, 156)';
 
+            var usernameTxt = username.innerHTML;
+
             localStorage.setItem('isTech', isTech);
             localStorage.setItem('isSc', isSc);
             localStorage.setItem('isCu', isCu);
             localStorage.setItem('isLife', isLife);
             localStorage.setItem('isSport', isSport);
             localStorage.setItem('isEntert', isEntert);
+            localStorage.setItem('username', usernameTxt);
 
             // Sign In
             const promise = auth.createUserWithEmailAndPassword(email, pass);
