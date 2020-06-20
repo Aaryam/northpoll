@@ -134,11 +134,14 @@
                             });
                         }
                     });
-                    if (document.getElementsByClassName('postBox').length == 0)
+                    if (index == 0 && document.getElementsByClassName('postBox').length == 0)
                     {
+                        let tempSpacer = document.createElement('div');
+                        tempSpacer.setAttribute('class', 'spacer-main');
                         let tempP = document.createElement('p');
                         tempP.innerText = 'No posts? Try adding some tags in the My Profile page!';
-                        document.body.appendChild(tempP);
+                        tempSpacer.appendChild(tempP);
+                        document.body.appendChild(tempSpacer);
                     }
                 }
             }
