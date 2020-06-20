@@ -134,6 +134,12 @@
                             });
                         }
                     });
+                    if (document.getElementsByClassName('postBox') == null)
+                    {
+                        let tempP = document.createElement('p');
+                        tempP.innerText = 'No posts? Try adding some tags in the My Profile page!';
+                        document.body.appendChild(tempP);
+                    }
                 }
             }
         }
