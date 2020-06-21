@@ -130,7 +130,7 @@
                                             if (JSON.stringify(tagSnap1.val()).slice(1, -1) == 'true') {
                                                 createCard(temp);
                                             }
-                                            else if (index == postVal && document.getElementsByClassName('postBox').length == 0)
+                                            if (index == postVal && document.getElementsByClassName('postBox').length == 0)
                                             {
                                                 var tempSpacer = document.createElement('div');
                                                 tempSpacer.setAttribute('class', 'spacer-main');
