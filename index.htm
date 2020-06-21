@@ -76,6 +76,9 @@
             <button id="buttonPost" class="buttonMain">Post</button>
         </div>
     </div>
+    <div class="spacer-main" id="waitText">
+            <p>Please wait for a moment...</p>
+    </div>
     <hr color='#4C4B83'>
 
     <!--Javascript reference-->
@@ -102,6 +105,8 @@
         postVal = JSON.stringify(postVal);
         postVal = parseInt(postVal);
 
+        var waitText = document.getElementById('waitText');
+
         function enterPosts() {
             if (postVal != NaN) {
                 for (let index = 0; index <= postVal; index++) {
@@ -125,6 +130,16 @@
                                             if (JSON.stringify(tagSnap1.val()).slice(1, -1) == 'true') {
                                                 createCard(temp);
                                             }
+                                            else if (index == postVal && document.getElementsByClassName('postBox').length == 0)
+                                            {
+                                                var tempSpacer = document.createElement('div');
+                                                tempSpacer.setAttribute('class', 'spacer-main');
+                                                var pText = document.createElement('p');
+                                                pText.innerHTML = 'No posts here. Try adding some tags from the Profile Page, or make a poll!';
+                                                tempSpacer.appendChild(pText);
+                                                document.body.appendChild(tempSpacer);
+                                            }
+                                            waitText.style.display = 'none';
                                         });
                                     }
                                 });
