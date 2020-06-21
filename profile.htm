@@ -166,22 +166,22 @@
                 tagsRef.on('value', function (snapshot) {
                     if (snapshot.hasChild('tags/')) {
                         firebase.database().ref('users/' + (localStorage.getItem("idCurrent") + '/') + 'tags/').update({
-                            technology: isTech,
-                            science: isSc,
-                            culture: isCu,
-                            lifestyle: isLife,
-                            sports: isSport,
-                            entertainment: isEntert,
+                            technology: isTech.toString(),
+                            science: isSc.toString(),
+                            culture: isCu.toString(),
+                            lifestyle: isLife.toString(),
+                            sports: isSport.toString(),
+                            entertainment: isEntert.toString(),
                         });
                     }
                     else if (!snapshot.hasChild('tags/')) {
                         firebase.database().ref('users/' + (localStorage.getItem("idCurrent") + '/') + 'tags/').on({
-                            technology: isTech,
-                            science: isSc,
-                            culture: isCu,
-                            lifestyle: isLife,
-                            sports: isSport,
-                            entertainment: isEntert,
+                            technology: isTech.toString(),
+                            science: isSc.toString(),
+                            culture: isCu.toString(),
+                            lifestyle: isLife.toString(),
+                            sports: isSport.toString(),
+                            entertainment: isEntert.toString(),
                         });
                     }
                 });
