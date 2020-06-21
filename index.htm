@@ -76,11 +76,10 @@
             <button id="buttonPost" class="buttonMain">Post</button>
         </div>
     </div>
-    <div class="spacer-main" id="waitText">
-            <p>Please wait for a moment...</p>
-    </div>
     <hr color='#4C4B83'>
-
+    <div class="spacer-main" id="waitText">
+        <p>Please wait for a moment...</p>
+    </div>
     <!--Javascript reference-->
 
     <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-app.js"></script>
@@ -130,8 +129,7 @@
                                             if (JSON.stringify(tagSnap1.val()).slice(1, -1) == 'true') {
                                                 createCard(temp);
                                             }
-                                            if (index == postVal && document.getElementsByClassName('postBox').length == 0)
-                                            {
+                                            if (index == postVal && document.getElementsByClassName('postBox').length == 0) {
                                                 var tempSpacer = document.createElement('div');
                                                 tempSpacer.setAttribute('class', 'spacer-main');
                                                 var pText = document.createElement('p');
